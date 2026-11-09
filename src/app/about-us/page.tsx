@@ -80,7 +80,7 @@ const AboutUsPage = () => {
             <p className="mt-6 max-w-xl text-base leading-7 text-ink/70 sm:text-lg">
               ChangeNest is a social development and community events platform
               that brings people together to create positive change. We connect
-              volunteers, event organizers, and communities to discover
+             volunteers, event organizers, and communities to discover
               meaningful activities and make a real difference in society.
             </p>
 
