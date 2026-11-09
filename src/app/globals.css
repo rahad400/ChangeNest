@@ -1,8 +1,21 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+
+/* ChangeNest er brand colors. Ekhane change korle pura site e update hobe. */
 @theme {
   --color-brand: #16a34a;
   --color-ink: #0f172a;
   --color-canvas: #f8fafc;
+}
+
+/* Hero icon er halka up-down animation. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }

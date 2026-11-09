@@ -7,22 +7,29 @@ import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import logo from "@/app/assets/logo.jpg";
 
+// Navbar er menu links. Notun link lagle ekhane add koro.
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Upcoming Events", href: "/events" },
-  { label: "About Us", href: "/about" },
+  { label: "About Us", href: "/about-us" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
+// Ei link ta current page er link kina check kore.
+// Example: /about-us page e thakle "About Us" active hobe.
 const isActiveLink = (pathname: string, href: string) =>
   href === "/"
     ? pathname === "/"
     : pathname === href || pathname.startsWith(`${href}/`);
 
 const Navebar = () => {
+  // Current page er path. Example: "/" or "/about".
   const pathname = usePathname();
+
+  // Mobile menu open (true) ba closed (false) ache kina.
   const [isOpen, setIsOpen] = useState(false);
 
+  // Mobile menu open thakle Escape key chaple menu bondho hobe.
   useEffect(() => {
     if (!isOpen) return;
 
@@ -34,11 +41,14 @@ const Navebar = () => {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [isOpen]);
 
+  // Menu close korar choto helper.
   const closeMenu = () => setIsOpen(false);
 
   return (
+    // Sticky header: page scroll korleo navbar upore fixed thake.
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
+        {/* Mobile menu open/close button. */}
         <button
           type="button"
           aria-expanded={isOpen}
@@ -53,6 +63,8 @@ const Navebar = () => {
             <FiMenu aria-hidden="true" className="h-5 w-5" />
           )}
         </button>
+
+        {/* Logo ar brand name. Click korle home page e jabe. */}
         <Link
           href="/"
           onClick={closeMenu}
@@ -77,11 +89,13 @@ const Navebar = () => {
           </span>
         </Link>
 
+        {/* Desktop menu. Boro screen e dekhabe. */}
         <nav
           className="hidden items-center gap-7 lg:flex"
           aria-label="Main navigation"
         >
           {navLinks.map((link) => {
+            // Ei link ta active kina check koro.
             const active = isActiveLink(pathname, link.href);
 
             return (
@@ -101,6 +115,7 @@ const Navebar = () => {
           })}
         </nav>
 
+        {/* Sign In button. Choto screen e hidden thake. */}
         <div className="flex items-center gap-2">
           <Link
             href="/sign-in"
@@ -111,6 +126,7 @@ const Navebar = () => {
         </div>
       </div>
 
+      {/* Mobile menu. Choto screen e button chaple niche open hobe. */}
       <div
         id="mobile-navigation"
         className={`absolute inset-x-0 top-full border-t border-ink/10 bg-white shadow-xl shadow-ink/5 lg:hidden ${
@@ -120,6 +136,7 @@ const Navebar = () => {
         <nav className="px-4 py-4 sm:px-6" aria-label="Mobile navigation">
           <ul className="space-y-1">
             {navLinks.map((link) => {
+              // Ei link ta active kina check koro.
               const active = isActiveLink(pathname, link.href);
 
               return (
@@ -147,6 +164,7 @@ const Navebar = () => {
             })}
           </ul>
 
+          {/* Mobile screen er Sign In button. */}
           <Link
             href="/sign-in"
             onClick={closeMenu}
