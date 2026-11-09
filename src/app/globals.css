@@ -1,2 +1,8 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
+@theme {
+  --color-brand: #16a34a;
+  --color-ink: #0f172a;
+  --color-canvas: #f8fafc;
+}
