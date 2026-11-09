@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   FiArrowRight,
+  FiArrowUpRight,
   FiCalendar,
   FiHeart,
   FiMapPin,
@@ -17,7 +18,7 @@ const highlights = [
   { label: "Real impact", icon: FiHeart },
 ] as const;
 
-// Right side er community panel er tag list.
+// Community card er tag list.
 const communityTags = [
   { label: "Volunteers", icon: FiUsers },
   { label: "Local events", icon: FiCalendar },
@@ -54,24 +55,24 @@ const Banner = () => {
         }}
       />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:px-8 lg:py-24">
         {/* Left side: text and buttons. */}
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-white/80 px-4 py-2 text-sm font-semibold text-ink shadow-sm shadow-ink/5 backdrop-blur">
-            <span
-              className="h-2 w-2 rounded-full bg-brand"
-              aria-hidden="true"
-            />
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60 motion-reduce:hidden" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
+            </span>
             Together We Grow
           </p>
 
-          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-ink/65 sm:text-sm">
+          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-ink/55 sm:text-sm">
             ChangeNest — Social Development &amp; Community Events Platform
           </p>
 
           <h1
             id="hero-heading"
-            className="mt-4 text-4xl font-bold tracking-tight text-ink sm:text-5xl xl:text-6xl"
+            className="mt-4 text-balance text-4xl font-bold tracking-tight text-ink sm:text-5xl xl:text-6xl"
           >
             Be the <span className="text-brand">Change</span> You Want to See
           </h1>
@@ -104,110 +105,186 @@ const Banner = () => {
             </Link>
           </div>
 
-          {/* Choto feature chips. */}
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          {/* Choto feature pills. */}
+          <ul className="mt-8 flex flex-wrap gap-2">
             {highlights.map(({ label, icon: Icon }) => (
               <li
                 key={label}
-                className="flex items-center gap-2 text-sm font-medium text-ink/65"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 px-3.5 py-2 text-xs font-semibold text-ink/70 shadow-sm shadow-ink/5 backdrop-blur"
               >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/10 text-brand">
-                  <Icon aria-hidden="true" className="h-3.5 w-3.5" />
-                </span>
+                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
                 {label}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Right side: image-free community panel. */}
+        {/* Right side: modern bento community composition. */}
         <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink p-6 shadow-2xl shadow-ink/25 sm:p-8">
-            {/* Panel er vitore emerald glow. */}
-            <div
-              aria-hidden="true"
-              className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand/25 blur-3xl"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-brand/10 blur-3xl"
-            />
+          {/* Composition er pichone soft emerald glow. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-6 rounded-[3rem] bg-brand/10 blur-3xl"
+          />
 
-            {/* Halka dot pattern. */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
-              }}
-            />
-
-            <div className="relative flex items-center justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
-                  Community impact
-                </p>
-                <p className="mt-1 text-lg font-semibold text-white">
-                  Powered by people like you
-                </p>
-              </div>
-
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand">
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-brand"
-                  aria-hidden="true"
-                />
-                Growing
-              </span>
-            </div>
-
-            {/* Center icon with soft rings. */}
-            <div className="relative mt-8 flex min-h-64 items-center justify-center">
+          <div className="relative grid gap-3 sm:gap-4">
+            {/* Main community card. */}
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink p-5 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.65)] sm:p-6">
+              {/* Card er vitore emerald glow. */}
               <div
                 aria-hidden="true"
-                className="absolute h-56 w-56 rounded-full border border-white/10"
+                className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand/25 blur-3xl"
               />
               <div
                 aria-hidden="true"
-                className="absolute h-44 w-44 rounded-full border border-brand/25"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute h-32 w-32 rounded-full bg-brand/15 blur-2xl"
+                className="absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-brand/10 blur-3xl"
               />
 
-              <div className="relative flex h-24 w-24 animate-[float_6s_ease-in-out_infinite] motion-reduce:animate-none">
-                <div className="flex h-full w-full items-center justify-center rounded-full bg-white p-2 shadow-xl shadow-brand/30 ring-4 ring-brand/20">
-                  <Image
-                    src={logo}
-                    alt="ChangeNest logo"
-                    width={112}
-                    height={112}
-                    className="h-full w-full rounded-full object-contain"
-                  />
+              {/* Halka dot pattern. */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 opacity-25"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px)",
+                  backgroundSize: "20px 20px",
+                }}
+              />
+
+              {/* Card header. */}
+              <div className="relative flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                    Community
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-white">
+                    Change <span className="text-brand">Nest</span>
+                  </p>
                 </div>
 
-                <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-brand text-ink ring-4 ring-ink">
-                  <FiHeart aria-hidden="true" className="h-4 w-4" />
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand">
+                  <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70 motion-reduce:hidden" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
+                  </span>
+                  Growing
                 </span>
               </div>
-            </div>
 
-            {/* Community tags. */}
-            <div className="relative mt-6 grid grid-cols-3 gap-2">
-              {communityTags.map(({ label, icon: Icon }) => (
+              {/* Logo medallion with orbit rings. */}
+              <div className="relative mt-5 flex min-h-48 items-center justify-center">
                 <div
-                  key={label}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 py-3 text-center backdrop-blur"
-                >
-                  <Icon aria-hidden="true" className="h-4 w-4 text-brand" />
-                  <span className="text-[11px] font-medium leading-tight text-white/70 sm:text-xs">
-                    {label}
+                  aria-hidden="true"
+                  className="absolute h-48 w-48 rounded-full border border-white/10"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute h-36 w-36 rounded-full border border-dashed border-brand/25"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute h-24 w-24 rounded-full bg-brand/20 blur-2xl"
+                />
+
+                {/* Choto orbit dots. */}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-brand/70"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-3 left-[10%] h-1 w-1 rounded-full bg-white/30"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute right-[12%] top-1/3 h-1.5 w-1.5 rounded-full bg-brand/40"
+                />
+
+                <div className="relative flex h-24 w-24 animate-[float_6s_ease-in-out_infinite] motion-reduce:animate-none">
+                  <div className="flex h-full w-full items-center justify-center rounded-[1.75rem] bg-white p-2 shadow-2xl shadow-brand/30 ring-1 ring-white/60">
+                    <Image
+                      src={logo}
+                      alt="ChangeNest logo"
+                      width={112}
+                      height={112}
+                      priority
+                      className="h-full w-full rounded-[1.25rem] object-contain"
+                    />
+                  </div>
+
+                  <span className="absolute -bottom-1.5 -right-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-brand text-ink shadow-lg shadow-brand/30 ring-4 ring-ink">
+                    <FiHeart aria-hidden="true" className="h-4 w-4" />
                   </span>
                 </div>
-              ))}
+              </div>
+
+              {/* Medallion er niche caption. */}
+              <p className="relative text-center text-sm font-semibold text-white sm:text-base">
+                Powered by people like you
+              </p>
+              <p className="relative mt-1 text-center text-[11px] leading-5 text-white/45 sm:text-xs">
+                Volunteers, organizers, and communities — growing together.
+              </p>
+
+              {/* Community tags. */}
+              <div className="relative mt-5 grid grid-cols-3 gap-2">
+                {communityTags.map(({ label, icon: Icon }) => (
+                  <div
+                    key={label}
+                    className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-2 py-2.5 text-center backdrop-blur"
+                  >
+                    <Icon aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                    <span className="text-[10px] font-medium leading-tight text-white/60 sm:text-[11px]">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bento er choto dui card. */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <Link
+                href="/events"
+                className="group rounded-[1.5rem] border border-ink/10 bg-white p-4 shadow-lg shadow-ink/5 transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl hover:shadow-ink/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                    <FiCalendar aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <FiArrowUpRight
+                    aria-hidden="true"
+                    className="h-4 w-4 text-ink/25 transition-colors group-hover:text-brand"
+                  />
+                </div>
+                <p className="mt-3 text-sm font-bold text-ink">
+                  Explore events
+                </p>
+                <p className="mt-1 text-xs leading-5 text-ink/55">
+                  Find social activities near you.
+                </p>
+              </Link>
+
+              <Link
+                href="/join"
+                className="group rounded-[1.5rem] bg-brand p-4 shadow-lg shadow-brand/25 transition hover:-translate-y-1 hover:bg-brand/90 hover:shadow-xl hover:shadow-brand/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas motion-reduce:transform-none"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink/10 text-ink">
+                    <FiUsers aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <FiArrowUpRight
+                    aria-hidden="true"
+                    className="h-4 w-4 text-ink/40 transition-colors group-hover:text-ink"
+                  />
+                </div>
+                <p className="mt-3 text-sm font-bold text-ink">
+                  Join the community
+                </p>
+                <p className="mt-1 text-xs leading-5 text-ink/75">
+                  Volunteer, organize, and grow.
+                </p>
+              </Link>
             </div>
           </div>
         </div>
