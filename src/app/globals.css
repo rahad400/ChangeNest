@@ -19,3 +19,38 @@
     transform: translateY(-8px);
   }
 }
+
+/* Hero content load howar somoy niche theke halka upor e uthbe. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero background er soft glow dhime dhime move korbe. */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-24px, 20px, 0) scale(1.06);
+  }
+}
+
+/* Ei class ta diye hero content er entrance animation hobe. */
+.rise-in {
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Reduced motion prefer korle animation bondho hobe. */
+@media (prefers-reduced-motion: reduce) {
+  .rise-in {
+    animation: none;
+  }
+}
