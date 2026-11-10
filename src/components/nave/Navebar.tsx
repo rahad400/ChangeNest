@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { toast } from "react-toastify";
 import logo from "@/app/assets/logo.jpg";
+import { signOut, useSession } from "@/app/lib/auth-client";
+import UserAvatar from "@/components/profile/UserAvatar";
 
 // Navbar er menu links. Notun link lagle ekhane add koro.
 const navLinks = [
@@ -25,9 +28,13 @@ const isActiveLink = (pathname: string, href: string) =>
 const Navebar = () => {
   // Current page er path. Example: "/" or "/about".
   const pathname = usePathname();
+  const router = useRouter();
 
   // Mobile menu open (true) ba closed (false) ache kina.
   const [isOpen, setIsOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
+  const { data: session, isPending } = useSession();
 
   // Mobile menu open thakle Escape key chaple menu bondho hobe.
   useEffect(() => {
@@ -43,6 +50,36 @@ const Navebar = () => {
 
   // Menu close korar choto helper.
   const closeMenu = () => setIsOpen(false);
+
+  // Sign out er por session clear hobe ar page refresh hobe.
+  const handleSignOut = async () => {
+    if (isSigningOut) return;
+
+    setIsSigningOut(true);
+
+    try {
+      const { error } = await signOut();
+
+      if (error) {
+        toast.error(
+          error.message || "Couldn't sign you out. Please try again.",
+        );
+        return;
+      }
+
+      closeMenu();
+      toast.success("You've been signed out.");
+      router.replace("/");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong while signing you out.");
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
+
+  // Navbar e user er first name dekhabo.
+  const firstName = session?.user.name?.trim().split(/\s+/)[0] || "Profile";
 
   return (
     // Sticky header: page scroll korleo navbar upore fixed thake.
@@ -115,14 +152,46 @@ const Navebar = () => {
           })}
         </nav>
 
-        {/* Sign In button. Choto screen e hidden thake. */}
-        <div className="flex items-center gap-2">
-          <Link
-            href="/sign-in"
-            className="hidden items-center justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-ink shadow-sm shadow-brand/20 transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:inline-flex"
-          >
-            Sign In
-          </Link>
+        {/* Session thakle profile ar sign out, nahole sign in. */}
+        <div className="hidden items-center gap-2 sm:flex">
+          {isPending ? (
+            <span
+              aria-hidden="true"
+              className="h-9 w-9 animate-pulse rounded-full bg-canvas"
+            />
+          ) : session?.user ? (
+            <>
+              <Link
+                href="/profile"
+                aria-label="Open your profile"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3 text-sm font-semibold text-ink transition-colors hover:border-ink/20 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              >
+                <UserAvatar
+                  name={session.user.name}
+                  image={session.user.image}
+                  className="h-8 w-8 text-[11px]"
+                />
+                <span className="max-w-24 truncate">{firstName}</span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleSignOut}
+                disabled={isSigningOut}
+                className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 px-3.5 py-2 text-sm font-semibold text-ink/70 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <FiLogOut aria-hidden="true" className="h-4 w-4" />
+                {isSigningOut ? "Signing out..." : "Sign Out"}
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-ink shadow-sm shadow-brand/20 transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
 
@@ -164,14 +233,48 @@ const Navebar = () => {
             })}
           </ul>
 
-          {/* Mobile screen er Sign In button. */}
-          <Link
-            href="/sign-in"
-            onClick={closeMenu}
-            className="mt-4 flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:hidden"
-          >
-            Sign In
-          </Link>
+          {/* Mobile screen er profile ar sign out actions. */}
+          {isPending ? null : session?.user ? (
+            <div className="mt-4 space-y-2 sm:hidden">
+              <Link
+                href="/profile"
+                onClick={closeMenu}
+                className="flex items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-3 transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              >
+                <UserAvatar
+                  name={session.user.name}
+                  image={session.user.image}
+                  className="h-10 w-10 text-sm"
+                />
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-semibold text-ink">
+                    {session.user.name}
+                  </span>
+                  <span className="block truncate text-xs text-ink/50">
+                    {session.user.email}
+                  </span>
+                </span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleSignOut}
+                disabled={isSigningOut}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-ink/10 px-4 py-3 text-sm font-semibold text-ink/70 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <FiLogOut aria-hidden="true" className="h-4 w-4" />
+                {isSigningOut ? "Signing out..." : "Sign Out"}
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/sign-in"
+              onClick={closeMenu}
+              className="mt-4 flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:hidden"
+            >
+              Sign In
+            </Link>
+          )}
         </nav>
       </div>
     </header>

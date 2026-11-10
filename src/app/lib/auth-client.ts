@@ -4,4 +4,4 @@ import { createAuthClient } from "better-auth/react";
 // Same origin e API ache, tai alada baseURL lagche na.
 export const authClient = createAuthClient();
 
-export const { signIn, signUp, useSession } = authClient;
+export const { signIn, signUp, signOut, useSession } = authClient;
