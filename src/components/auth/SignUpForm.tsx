@@ -240,8 +240,6 @@ const SignUpForm = () => {
         newUserCallbackURL: "/",
         errorCallbackURL: "/sign-up",
       });
-
-     
     } catch {
       const message =
         "Something went wrong while connecting to Google. Check your connection and try again.";
@@ -315,9 +313,6 @@ const SignUpForm = () => {
             className="text-sm font-semibold text-ink"
           >
             Full name
-            <span aria-hidden="true" className="ml-0.5 text-brand">
-              *
-            </span>
           </label>
 
           <input
@@ -355,9 +350,6 @@ const SignUpForm = () => {
             className="text-sm font-semibold text-ink"
           >
             Email
-            <span aria-hidden="true" className="ml-0.5 text-brand">
-              *
-            </span>
           </label>
 
           <input
@@ -394,12 +386,9 @@ const SignUpForm = () => {
             className="text-sm font-semibold text-ink"
           >
             Password
-            <span aria-hidden="true" className="ml-0.5 text-brand">
-              *
-            </span>
           </label>
 
-          <div className="relative">
+          <div className="relative mt-2 flex items-center">
             <input
               ref={passwordRef}
               id="signup-password"
@@ -418,9 +407,9 @@ const SignUpForm = () => {
                   ? "signup-password-rules signup-password-error"
                   : "signup-password-rules"
               }
-              className={`${inputBase} ${passwordSize} mt-2 ${inputTone(
+              className={`${inputBase} ${passwordSize} ${inputTone(
                 Boolean(passwordError),
-              )}`}
+              )} w-full pr-12`}
             />
 
             <button
@@ -428,7 +417,7 @@ const SignUpForm = () => {
               aria-label={showPassword ? "Hide password" : "Show password"}
               aria-controls="signup-password"
               onClick={() => setShowPassword((visible) => !visible)}
-              className="absolute right-1.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-ink/45 transition-colors hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="absolute right-2.5 inset-y-0 my-auto flex h-9 w-9 items-center justify-center rounded-xl text-ink/45 transition-colors hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               {showPassword ? (
                 <FiEyeOff aria-hidden="true" className="h-4 w-4" />

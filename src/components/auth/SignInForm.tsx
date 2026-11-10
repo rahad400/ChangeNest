@@ -252,9 +252,7 @@ const SignInForm = () => {
             className="text-sm font-semibold text-ink"
           >
             Email
-            <span aria-hidden="true" className="ml-0.5 text-brand">
-              *
-            </span>
+           
           </label>
 
           <div className="relative mt-2">
@@ -299,9 +297,6 @@ const SignInForm = () => {
               className="text-sm font-semibold text-ink"
             >
               Password
-              <span aria-hidden="true" className="ml-0.5 text-brand">
-                *
-              </span>
             </label>
 
             <Link

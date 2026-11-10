@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import logo from "@/app/assets/logo.jpg";
 import { signOut, useSession } from "@/app/lib/auth-client";
 import UserAvatar from "@/components/profile/UserAvatar";
+import User from "@/components/profile/user";
 
 // Navbar er menu links. Notun link lagle ekhane add koro.
 const navLinks = [
@@ -77,9 +78,6 @@ const Navebar = () => {
       setIsSigningOut(false);
     }
   };
-
-  // Navbar e user er first name dekhabo.
-  const firstName = session?.user.name?.trim().split(/\s+/)[0] || "Profile";
 
   return (
     // Sticky header: page scroll korleo navbar upore fixed thake.
@@ -160,30 +158,7 @@ const Navebar = () => {
               className="h-9 w-9 animate-pulse rounded-full bg-canvas"
             />
           ) : session?.user ? (
-            <>
-              <Link
-                href="/profile"
-                aria-label="Open your profile"
-                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3 text-sm font-semibold text-ink transition-colors hover:border-ink/20 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-              >
-                <UserAvatar
-                  name={session.user.name}
-                  image={session.user.image}
-                  className="h-8 w-8 text-[11px]"
-                />
-                <span className="max-w-24 truncate">{firstName}</span>
-              </Link>
-
-              <button
-                type="button"
-                onClick={handleSignOut}
-                disabled={isSigningOut}
-                className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 px-3.5 py-2 text-sm font-semibold text-ink/70 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <FiLogOut aria-hidden="true" className="h-4 w-4" />
-                {isSigningOut ? "Signing out..." : "Sign Out"}
-              </button>
-            </>
+            <User />
           ) : (
             <Link
               href="/sign-in"

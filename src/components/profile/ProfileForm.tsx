@@ -164,9 +164,6 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
             className="text-sm font-semibold text-ink"
           >
             Full name
-            <span aria-hidden="true" className="ml-0.5 text-brand">
-              *
-            </span>
           </label>
 
           <input
@@ -177,8 +174,8 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
             minLength={3}
             maxLength={60}
             autoComplete="name"
-            placeholder="Your full name"
-            value={name}
+            placeholder="Change name"
+            // value={name}
             onChange={(event) => {
               setName(event.target.value);
               setFormError(null);
@@ -233,7 +230,7 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
             htmlFor="profile-image"
             className="text-sm font-semibold text-ink"
           >
-            Avatar image URL
+             Image URL
           </label>
 
           <input
@@ -244,7 +241,7 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
             autoComplete="url"
             spellCheck={false}
             placeholder="https://example.com/avatar.jpg"
-            value={image}
+            // value={image}
             onChange={(event) => {
               setImage(event.target.value);
               setFormError(null);
