@@ -105,7 +105,7 @@ const Navebar = () => {
                 aria-current={active ? "page" : undefined}
                 className={`relative py-2 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-brand after:transition-transform after:duration-200 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                   active
-                    ? "text-ink after:scale-x-100"
+                    ? "text-green-600  after:scale-x-100"
                     : "text-ink/70 after:scale-x-0 hover:text-ink hover:after:scale-x-100"
                 }`}
               >
