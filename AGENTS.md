@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Project
 
-Single-package Next.js 16 App Router site; source lives under `src/` (README's `app/page.tsx` path is stale — the home route is `src/app/page.tsx`). No tests, CI, monorepo, or env setup.
+Single-package Next.js 16 App Router site; source lives under `src/` (README's `app/page.tsx` path is stale — the home route is `src/app/page.tsx`). No tests, CI, or monorepo. Auth is Better Auth + MongoDB; everything else is static UI.
 
 ## Commands
 
@@ -20,18 +20,25 @@ Single-package Next.js 16 App Router site; source lives under `src/` (README's `
 - `npx tsc --noEmit` — typecheck; `npm run build` also typechecks and is the full verification.
 - There is no `npm test`; no test runner is configured.
 
+## Auth / environment
+
+- Requires `MONGO_URI`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL` in `.env`; Google auth also needs `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. `.env*` is gitignored and there is no example file.
+- Server config: `src/app/lib/auth.ts`. Browser client: `src/app/lib/auth-client.ts`. Catch-all handler: `src/app/api/auth/[...all]/route.ts` (via `toNextJsHandler`). This project uses `src/app/lib/`, not `src/lib/`.
+- Import `auth` only in server code and `authClient` only in client components (`"use client"`); the client re-exports `signIn`, `signUp`, and `useSession`.
+- Sign-up and sign-in (email/password + Google OAuth) are wired to Better Auth in `src/components/auth/SignUpForm.tsx` and `src/components/auth/SignInForm.tsx`.
+
 ## Styling / UI
 
 - Tailwind CSS v4 runs through the `@tailwindcss/turbopack` loader for all `*.css` in `next.config.ts`, not PostCSS. There is no `tailwind.config.*` or `postcss.config.*`; don't add one for ordinary utility styles.
 - `src/app/globals.css` imports both `tailwindcss` and `@heroui/styles`; keep both.
 - HeroUI is v3 (`@heroui/react`): no provider wrapper, and it uses the v3 compound component APIs. Don't apply v2/NextUI setup from memory.
-- Brand accent is green `#16A34A` (hover `#15803D`).
+- Use the theme tokens: `brand` (`#16A34A`), `ink` (`#0F172A`), `canvas` (`#F8FAFC`), plus white.
 
 ## Structure
 
-- Root chrome: `src/app/layout.tsx`.
-- Live navbar: `src/components/nave/Navebar.tsx` (imported by the layout).
-- Palette tokens in `src/app/globals.css`: `brand` (`#16A34A`), `ink` (`#0F172A`), `canvas` (`#F8FAFC`), plus white.
+- Root chrome: `src/app/layout.tsx` (navbar, footer, `ToastContainer`).
+- Live navbar: `src/components/nave/Navebar.tsx` (imported by the layout; note the `nave`/`Navebar` spellings).
+- Feature components live under `src/components/<feature>/` (e.g. `auth/`, `contact/`).
 - `@/*` maps to `src/*`.
 - Next 16 generates route prop types (`LayoutProps<"/">`, etc.); use those instead of hand-writing route props.
 - React Compiler is enabled; avoid adding memoization solely for render performance.

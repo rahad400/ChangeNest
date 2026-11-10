@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
-export const authClient = createAuthClient({
-    baseURL:process.env.BETTER_AUTH_URL as string
-})
+// Ekta client thekei sign in, sign up ar session use hobe.
+// Same origin e API ache, tai alada baseURL lagche na.
+export const authClient = createAuthClient();
 
-export const { signIn, signUp, useSession } = createAuthClient()
+export const { signIn, signUp, useSession } = authClient;

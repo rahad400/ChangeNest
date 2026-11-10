@@ -1,194 +1,202 @@
-"use client";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { FiCalendar, FiHeart, FiUsers } from "react-icons/fi";
+import logo from "@/app/assets/logo.jpg";
+import SignUpForm from "@/components/auth/SignUpForm";
 
-import { Check, Eye, EyeSlash } from "@gravity-ui/icons";
-import {
-  Button,
-  Description,
-  FieldError,
-  Form,
-  Input,
-  InputGroup,
-  Label,
-  TextField,
-} from "@heroui/react";
+export const metadata: Metadata = {
+  title: "Sign Up | ChangeNest",
+  description:
+    "Create your ChangeNest account to discover community events, meet volunteers, and make a real difference.",
+};
 
-import { useState } from "react";
-import { FcCancel } from "react-icons/fc";
-import { authClient } from "../lib/auth-client";
-import { toast } from "react-toastify";
+// Left panel er benefit list.
+const benefits = [
+  {
+    title: "Discover local events",
+    description: "Find social activities happening around you.",
+    icon: FiCalendar,
+  },
+  {
+    title: "Meet volunteers",
+    description: "Connect with people who care about the same things.",
+    icon: FiUsers,
+  },
+  {
+    title: "Make real impact",
+    description: "Turn a few hours into meaningful change.",
+    icon: FiHeart,
+  },
+] as const;
 
-const SignInPage = async () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const heandleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const user = Object.fromEntries(formData.entries()) as {
-      name: string;
-      email: string;
-      password: string;
-      confirmpassword: string;
-    };
-    // console.log("user data is there", user);
-
-    if (user.password !== user.confirmpassword) {
-      return;
-    }
-
-    const { data, error } = await authClient.signUp.email({
-      ...user,
-    });
-
-    if (data) {
-      toast.success(`Successful sign up ${user.name} !`);
-      console.log(data)
-    }
-
-    if (error) {
-      toast.error(error.message || "Something went wrong!");
-    }
-  };
+const SignUpPage = () => {
   return (
-    <div className="container mx-auto px-4 my-6">
-      <Form
-        className="flex w-96 flex-col gap-4"
-        render={(props) => <form {...props} data-custom="foo" />}
-        onSubmit={heandleSubmit}
-      >
-        <TextField isRequired name="name" type="name" minLength={3}>
-          <Label> Full Name</Label>
-          <Input placeholder="Enter your name" />
-          <FieldError />
-        </TextField>
+    // Pura sign-up page er main wrapper.
+    <main className="relative isolate overflow-hidden bg-canvas">
+      {/* Soft emerald ar navy background glow. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 82% 8%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 8% 92%, rgba(15, 23, 42, 0.07), transparent 34%)",
+        }}
+      />
 
-        <TextField
-          isRequired
-          name="email"
-          type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
-            return null;
-          }}
-        >
-          <Label>Email</Label>
-          <Input placeholder="john@example.com" />
-          <FieldError />
-        </TextField>
+      {/* Halka grid pattern. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-50"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage:
+            "radial-gradient(ellipse at center, black, transparent 72%)",
+        }}
+      />
 
-        <TextField className="w-full max-w-[280px]" name="password">
-          <Label>Password</Label>
-          <InputGroup>
-            <InputGroup.Input
-              className="w-full max-w-[280px]"
-              placeholder="Enter your password"
-              type={isVisible ? "text" : "password"}
-              isRequired
-              minLength={8}
-              name="password"
-              validate={(value: string) => {
-                if (value.length < 8) {
-                  return "Password must be at least 8 characters";
-                }
-                if (!/[A-Z]/.test(value)) {
-                  return "Password must contain at least one uppercase letter";
-                }
-                if (!/[0-9]/.test(value)) {
-                  return "Password must contain at least one number";
-                }
-                return null;
-              }}
-              //   value={isVisible ? "87$2h.3diua" : "••••••••"}
-            />
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        {/* Main card: left e brand panel, right e form. */}
+        <div className="rise-in overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)] sm:rounded-[2.5rem]">
+          <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
+            {/* Left brand panel. Mobile e hidden thake. */}
+            <aside className="relative hidden overflow-hidden bg-ink p-10 text-white lg:flex lg:flex-col xl:p-12">
+              {/* Panel er vitore emerald glow. */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand/25 blur-3xl"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-28 -left-24 h-72 w-72 rounded-full bg-brand/10 blur-3xl"
+              />
 
-            <InputGroup.Suffix className="pe-0">
-              <Button
-                isIconOnly
-                aria-label={isVisible ? "Hide password" : "Show password"}
-                size="sm"
-                variant="ghost"
-                onPress={() => setIsVisible(!isVisible)}
-              >
-                {isVisible ? (
-                  <Eye className="size-4" />
-                ) : (
-                  <EyeSlash className="size-4" />
-                )}
-              </Button>
-            </InputGroup.Suffix>
-          </InputGroup>
-          <Description>
-            Must be at least 8 characters with 1 uppercase and 1 number
-          </Description>
-        </TextField>
-        <TextField className="w-full max-w-[280px]" name="password">
-          <Label>Confirm Password</Label>
-          <InputGroup>
-            <InputGroup.Input
-              className="w-full max-w-[280px]"
-              placeholder="Enter your password"
-              type={isVisible ? "text" : "password"}
-              isRequired
-              minLength={8}
-              name="confirmpassword"
-              validate={(value: string) => {
-                if (value.length < 8) {
-                  return "Password must be at least 8 characters";
-                }
-                if (!/[A-Z]/.test(value)) {
-                  return "Password must contain at least one uppercase letter";
-                }
-                if (!/[0-9]/.test(value)) {
-                  return "Password must contain at least one number";
-                }
-                return null;
-              }}
-              //   value={isVisible ? "87$2h.3diua" : "••••••••"}
-            />
+              {/* Halka dot pattern. */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-20"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px)",
+                  backgroundSize: "22px 22px",
+                }}
+              />
 
-            <InputGroup.Suffix className="pe-0">
-              <Button
-                isIconOnly
-                aria-label={isVisible ? "Hide password" : "Show password"}
-                size="sm"
-                variant="ghost"
-                onPress={() => setIsVisible(!isVisible)}
-              >
-                {isVisible ? (
-                  <Eye className="size-4" />
-                ) : (
-                  <EyeSlash className="size-4" />
-                )}
-              </Button>
-            </InputGroup.Suffix>
-          </InputGroup>
-          <Description>
-            Must be at least 8 characters with 1 uppercase and 1 number
-          </Description>
-        </TextField>
-        <div className="flex gap-2">
-          <Button
-            type="submit"
-            className={
-              "bg-[#16a34a] hover:bg-black hover:text-white text-black"
-            }
-          >
-            <Check />
-            Sign In
-          </Button>
-          <Button
-            type="reset"
-            variant="secondary"
-            className={"text-red-500  border-2 border-red-500 rounded-xxl"}
-          >
-            <FcCancel />
-            Cancel
-          </Button>
+              {/* Choto decorative ring. */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 rounded-full border border-white/5"
+              />
+
+              {/* Logo ar brand name. */}
+              <div className="relative">
+                <Link
+                  href="/"
+                  aria-label="Change Nest home"
+                  className="inline-flex items-center gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                >
+                  <Image
+                    src={logo}
+                    alt="Change Nest logo"
+                    width={48}
+                    height={48}
+                    className="h-11 w-11 rounded-2xl object-cover ring-2 ring-white/15"
+                  />
+                  <span className="flex flex-col">
+                    <span className="text-lg font-bold tracking-tight text-white">
+                      Change <span className="text-brand">Nest</span>
+                    </span>
+                    <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-white/45">
+                      Together We Grow
+                    </span>
+                  </span>
+                </Link>
+              </div>
+
+              {/* Main message. */}
+              <div className="relative mt-14">
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand backdrop-blur">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-brand"
+                    aria-hidden="true"
+                  />
+                  Join the community
+                </p>
+
+                <h2 className="mt-5 text-balance text-3xl font-bold leading-tight tracking-tight text-white xl:text-4xl">
+                  Join the community that creates change.
+                </h2>
+
+                <p className="mt-4 text-sm leading-7 text-white/60 xl:text-base">
+                  Create your free account to discover events, meet
+                  like-minded volunteers, and help your community grow.
+                </p>
+
+                {/* Benefit list. */}
+                <ul className="mt-8 space-y-3">
+                  {benefits.map(({ title, description, icon: Icon }) => (
+                    <li
+                      key={title}
+                      className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-3.5 backdrop-blur"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand">
+                        <Icon aria-hidden="true" className="h-4 w-4" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold text-white">
+                          {title}
+                        </span>
+                        <span className="mt-0.5 block text-xs leading-5 text-white/55">
+                          {description}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Panel er niche choto closing line. */}
+              <div className="relative mt-auto border-t border-white/10 pt-6">
+                <p className="text-sm font-semibold text-white">
+                  Small actions. Real impact.
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/50">
+                  Every event starts with one person who cares. That could be
+                  you.
+                </p>
+              </div>
+            </aside>
+
+            {/* Right side: sign-up form card. */}
+            <div className="p-6 sm:p-10 lg:p-12">
+              <div className="mx-auto w-full max-w-md">
+                <p className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-brand"
+                    aria-hidden="true"
+                  />
+                  Join ChangeNest
+                </p>
+
+                <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                  Create your account
+                </h1>
+
+                <p className="mt-3 text-sm leading-7 text-ink/60 sm:text-base">
+                  Sign up to discover community events, connect with
+                  volunteers, and start making a difference.
+                </p>
+
+                <SignUpForm />
+              </div>
+            </div>
+          </div>
         </div>
-      </Form>
-    </div>
+      </div>
+    </main>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
