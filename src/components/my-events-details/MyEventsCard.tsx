@@ -1,14 +1,46 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FiCalendar, FiEdit2, FiMapPin, FiTrash2 } from "react-icons/fi";
 import type { IEvent } from "@/types";
+import { use, useState } from "react";
+import { redirect } from "next/navigation";
 
 type MyEventsCardProps = {
   event: IEvent;
 };
 
 const MyEventsCard = ({ event }: MyEventsCardProps) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this event? ",
+    );
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      setIsDeleting(true);
+      const res = await fetch(`/api/my-events/${event._id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete event");
+      }
+
+      setIsDeleted(true);
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+
+    redirect("/my-events");
+  };
 
   const imageSource = event.image?.url || event.image?.dataUrl;
 
@@ -40,7 +72,8 @@ const MyEventsCard = ({ event }: MyEventsCardProps) => {
           </p>
           <p className="mt-1 flex items-center gap-1.5 text-xs text-ink/55">
             <FiCalendar aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
-            {event.values.date} · {event.values.startTime}–{event.values.endTime}
+            {event.values.date} · {event.values.startTime}–
+            {event.values.endTime}
           </p>
         </div>
       </div>
@@ -62,9 +95,10 @@ const MyEventsCard = ({ event }: MyEventsCardProps) => {
         <button
           type="button"
           className="inline-flex items-center gap-2 border border-red-500 rounded-full px-4 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+          onClick={handleDelete}
         >
           <FiTrash2 aria-hidden="true" className="h-3.5 w-3.5" />
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </button>
       </div>
     </article>
