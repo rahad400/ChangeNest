@@ -159,7 +159,7 @@ const CreateEventForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:8000/create-event", {
+      const response = await fetch("/api/my-events", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -181,7 +181,7 @@ const CreateEventForm = () => {
       let result: unknown;
 
       try {
-       result = await response.json();
+        result = await response.json();
         // console.log(result);
       } catch {
         toast.error("We couldn't read the server response. Please try again.");

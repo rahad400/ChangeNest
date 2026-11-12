@@ -56,7 +56,7 @@ const User = () => {
         router.push("/create-event");
         break;
       case "my-events":
-        router.push("/events");
+        router.push("/my-events");
         break;
       case "sign-out":
         void handleSignOut();
