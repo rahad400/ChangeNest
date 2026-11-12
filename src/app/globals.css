@@ -71,6 +71,19 @@ details[open] .faq-plus {
   transform: rotate(45deg);
 }
 
+/* Create event form e label er red star icon lagbe na. */
+.create-event-form .label--required::after,
+.create-event-form
+  [data-required="true"]:not([role="group"]):not([role="radiogroup"]):not(
+    [role="checkboxgroup"]
+  )
+  > .label::after,
+.create-event-form
+  [data-required="true"]:not([data-slot="radio"]):not([data-slot="checkbox"])
+  > .label::after {
+  content: none;
+}
+
 /* Reduced motion prefer korle animation bondho hobe. */
 @media (prefers-reduced-motion: reduce) {
   .rise-in {

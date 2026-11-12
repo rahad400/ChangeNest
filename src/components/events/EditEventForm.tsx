@@ -641,7 +641,7 @@ const EditEventForm = ({ event }: EditEventFormProps) => {
                 id="edit-start-time"
                 name="startTime"
                 type="time"
-                value={values.startTime}
+                value={values.startTime||"00:00"}
                 onChange={(changeEvent) =>
                   updateField("startTime", changeEvent.target.value)
                 }
@@ -672,7 +672,7 @@ const EditEventForm = ({ event }: EditEventFormProps) => {
                 id="edit-end-time"
                 name="endTime"
                 type="time"
-                value={values.endTime}
+                value={values.endTime||"00:00"}
                 onChange={(changeEvent) =>
                   updateField("endTime", changeEvent.target.value)
                 }
