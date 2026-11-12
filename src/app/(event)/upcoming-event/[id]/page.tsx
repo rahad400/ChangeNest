@@ -157,6 +157,10 @@ const EventFact = ({ icon: Icon, label, value }: EventFactProps) => (
 
 const DetailsPage = async ({ params }: DetailsPageProps) => {
   const { id } = await params;
+
+  // Invalid id hole backend e request na pathiye direct 404 dekhai.
+  if (!/^[a-f0-9]{24}$/i.test(id)) notFound();
+
   let response: Response;
 
   try {

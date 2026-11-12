@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Navebar from "@/components/nave/Navebar";
 import Footer from "@/components/Footer";
 import { ToastContainer } from "react-toastify";
-import script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script
+          id="theme-init"
           dangerouslySetInnerHTML={{
             __html: `(function(){var d;try{var t=localStorage.getItem("theme");d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);}catch(e){d=window.matchMedia("(prefers-color-scheme: dark)").matches;}document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";})();`,
           }}

@@ -10,7 +10,7 @@ import {
   FiMail,
 } from "react-icons/fi";
 import { authClient } from "@/app/lib/auth-client";
-import UserAvatar from "@/components/profile/UserAvatar";
+import UserAvatar from "@/components/auth/profile/UserAvatar";
 import type { ProfileFormProps } from "@/types";
 
 const inputBase =

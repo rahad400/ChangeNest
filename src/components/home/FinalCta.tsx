@@ -67,13 +67,13 @@ const FinalCta = () => {
           </p>
 
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link href="/events" className={primaryButtonStyles}>
+            <Link href="/upcoming-event" className={primaryButtonStyles}>
               Explore events
               <ArrowRight aria-hidden="true" className={arrowStyles} />
             </Link>
 
             <Link
-              href="/events/create"
+              href="/create-event"
               className={`${secondaryButtonStyles} border-white/15 bg-white/5 text-white hover:border-white/30 hover:bg-white/10 hover:text-white`}
             >
               <Plus aria-hidden="true" className="h-4 w-4" />

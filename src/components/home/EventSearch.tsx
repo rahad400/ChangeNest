@@ -8,10 +8,15 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { categories, cities } from "./data";
+import { eventCategories } from "@/app/lib/event-form";
+import type { IEvent } from "@/types";
 import { useHomeSearch } from "./HomeSearch";
 
-const EventSearch = () => {
+type EventSearchProps = {
+  events: IEvent[];
+};
+
+const EventSearch = ({ events }: EventSearchProps) => {
   const {
     query,
     category,
@@ -21,6 +26,11 @@ const EventSearch = () => {
     setCity,
     scrollToEvents,
   } = useHomeSearch();
+
+  // City list backend er real event theke ashe, hardcode na.
+  const cities = Array.from(
+    new Set(events.map((event) => event.values.city).filter(Boolean)),
+  ).sort();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,7 +64,7 @@ const EventSearch = () => {
             </div>
             <p className="hidden items-center gap-1.5 text-xs font-medium text-ink/45 sm:flex">
               <Sparkles aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
-              {categories.length} causes · {cities.length} cities
+              {eventCategories.length} causes · {cities.length} cities
             </p>
           </div>
 
@@ -98,7 +108,7 @@ const EventSearch = () => {
                   className="h-12 w-full appearance-none rounded-xl border border-ink/12 bg-canvas pl-11 pr-10 text-sm font-medium text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                 >
                   <option value="all">All categories</option>
-                  {categories.map((item) => (
+                  {eventCategories.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.label}
                     </option>
@@ -151,35 +161,37 @@ const EventSearch = () => {
             </button>
           </form>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/35">
-              Popular
-            </span>
-            {cities.slice(0, 4).map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => focusCity(item)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
-                  city === item
-                    ? "border-brand/40 bg-brand/10 text-brand"
-                    : "border-ink/10 bg-canvas text-ink/55 hover:border-brand/30 hover:text-ink"
-                }`}
-              >
-                <MapPin aria-hidden="true" className="h-3 w-3" />
-                {item}
-              </button>
-            ))}
-            {city !== "all" ? (
-              <button
-                type="button"
-                onClick={() => setCity("all")}
-                className="rounded-full px-3 py-1.5 text-[11px] font-semibold text-ink/40 transition hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-              >
-                Clear location
-              </button>
-            ) : null}
-          </div>
+          {cities.length > 0 ? (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/35">
+                Popular
+              </span>
+              {cities.slice(0, 4).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => focusCity(item)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
+                    city === item
+                      ? "border-brand/40 bg-brand/10 text-brand"
+                      : "border-ink/10 bg-canvas text-ink/55 hover:border-brand/30 hover:text-ink"
+                  }`}
+                >
+                  <MapPin aria-hidden="true" className="h-3 w-3" />
+                  {item}
+                </button>
+              ))}
+              {city !== "all" ? (
+                <button
+                  type="button"
+                  onClick={() => setCity("all")}
+                  className="rounded-full px-3 py-1.5 text-[11px] font-semibold text-ink/40 transition hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                >
+                  Clear location
+                </button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

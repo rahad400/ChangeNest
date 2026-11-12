@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FiAlertCircle, FiArrowLeft } from "react-icons/fi";
 import { auth } from "@/app/lib/auth";
-import EditEventForm from "@/components/events/EditEventForm";
+import EditEventForm from "@/components/events/my-events-details/EditEventForm";
 import type { IEvent } from "@/types";
 
 export const metadata: Metadata = {
@@ -60,14 +60,17 @@ const EventEditError = ({
 );
 
 const EventEditPage = async ({ searchParams }: EventEditPageProps) => {
+  const params = await searchParams;
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
-    redirect("/sign-in");
+    const nextPath = id
+      ? `/event-edit?id=${encodeURIComponent(id)}`
+      : "/my-events";
+    redirect(`/sign-in?next=${encodeURIComponent(nextPath)}`);
   }
-
-  const params = await searchParams;
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
   if (!id) {
     return (
@@ -101,8 +104,9 @@ const EventEditPage = async ({ searchParams }: EventEditPageProps) => {
 
       if (Array.isArray(data)) {
         event =
-          data.find((item): item is IEvent => isIEvent(item) && item._id === id) ??
-          null;
+          data.find(
+            (item): item is IEvent => isIEvent(item) && item._id === id,
+          ) ?? null;
       }
     }
   } catch {

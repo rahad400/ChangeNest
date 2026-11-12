@@ -34,7 +34,7 @@ const RecentActivities = () => {
           description="A look back at the mornings, afternoons, and shared efforts that made a neighbourhood feel a little more like a nest."
           action={
             <Link
-              href="/events"
+              href="/upcoming-event"
               className="group inline-flex items-center gap-2 text-sm font-semibold text-brand transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               See what&apos;s next
@@ -95,7 +95,7 @@ const RecentActivities = () => {
               </p>
 
               <Link
-                href="/events"
+                href="/upcoming-event"
                 className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 Read the recap

@@ -87,7 +87,8 @@ export type EventSubmission = {
     capacity: string;
   };
   image?: {
-     dataUrl?: string | null;
-     url?: string | null;
-   } | null;
+    dataUrl?: string | null;
+    url?: string | null;
+  } | null;
+  createdBy?: string;
 }

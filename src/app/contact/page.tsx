@@ -277,7 +277,7 @@ const ContactPage = () => {
 
             <div className="flex flex-col gap-3 sm:flex-row lg:shrink-0">
               <Link
-                href="/events"
+                href="/upcoming-event"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-navy shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy motion-reduce:transform-none"
               >
                 Explore Events
@@ -285,7 +285,7 @@ const ContactPage = () => {
               </Link>
 
               <Link
-                href="/join"
+                href="/sign-up"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy motion-reduce:transform-none"
               >
                 Join Us

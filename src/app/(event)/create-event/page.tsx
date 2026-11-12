@@ -16,7 +16,7 @@ const CreateEventPage = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
-    redirect("/sign-in");
+    redirect("/sign-in?next=/create-event");
   }
 
   return (

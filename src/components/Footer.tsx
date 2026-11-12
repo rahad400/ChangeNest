@@ -7,16 +7,16 @@ import logo from "@/app/assets/logo.jpg";
 // Quick links er list. Navbar er sathe same route use kora hoyeche.
 const quickLinks = [
   { label: "Home", href: "/" },
-  { label: "Upcoming Events", href: "/events" },
+  { label: "Upcoming Events", href: "/upcoming-event" },
   { label: "About Us", href: "/about-us" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
-// Get involved section er link list.
+// Get involved links mapped to working application routes
 const involvedLinks = [
-  { label: "Explore Events", href: "/events" },
-  { label: "Create Event", href: "/events/create" },
-  { label: "Join & Volunteer", href: "/join" },
+  { label: "Explore Events", href: "/upcoming-event" },
+  { label: "Create Event", href: "/create-event" },
+  { label: "Join & Volunteer", href: "/sign-up" },
 ] as const;
 
 // Social links. Real profile link pele href update koro.

@@ -2,18 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FiCalendar, FiEdit2, FiMapPin, FiTrash2 } from "react-icons/fi";
+import { toast } from "react-toastify";
 import type { IEvent } from "@/types";
-import { use, useState } from "react";
-import { redirect } from "next/navigation";
 
 type MyEventsCardProps = {
   event: IEvent;
 };
 
 const MyEventsCard = ({ event }: MyEventsCardProps) => {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
@@ -32,14 +33,15 @@ const MyEventsCard = ({ event }: MyEventsCardProps) => {
         throw new Error("Failed to delete event");
       }
 
-      setIsDeleted(true);
+      toast.success("Event deleted.");
+      router.push("/my-events");
+      router.refresh();
     } catch (error) {
       console.error("Error deleting event:", error);
+      toast.error("We couldn't delete this event. Please try again.");
     } finally {
       setIsDeleting(false);
     }
-
-    redirect("/my-events");
   };
 
   const imageSource = event.image?.url || event.image?.dataUrl;

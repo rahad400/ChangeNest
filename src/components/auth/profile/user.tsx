@@ -6,14 +6,15 @@ import { Dropdown } from "@heroui/react";
 import { toast } from "react-toastify";
 import {
   FiCalendar,
-  FiChevronDown,
+  FiGrid,
   FiLogOut,
   FiPlusCircle,
   FiUser,
 } from "react-icons/fi";
 import { signOut, useSession } from "@/app/lib/auth-client";
 import UserAvatar from "./UserAvatar";
-import Link from "next/link";
+
+import { FaRegCalendarCheck } from "react-icons/fa6";
 
 const User = () => {
   const { data: session, isPending } = useSession();
@@ -49,11 +50,17 @@ const User = () => {
   // Menu item click korle ei handler ta cholbe.
   const handleAction = (key: Key) => {
     switch (key) {
+      case "dashboard":
+        router.push("/dashboard");
+        break;
       case "profile":
         router.push("/profile");
         break;
       case "create-event":
         router.push("/create-event");
+        break;
+      case "my-joined-events":
+        router.push("/my-joined-events");
         break;
       case "my-events":
         router.push("/my-events");
@@ -68,25 +75,35 @@ const User = () => {
   if (isPending || !session?.user) return null;
 
   const user = session.user;
-  const firstName = user.name?.trim().split(/\s+/)[0] || "Profile";
 
   return (
     <Dropdown>
       <Dropdown.Trigger
         aria-label="Open user menu"
-        className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/20 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:pr-3"
+        className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 bg-surface text-ink transition-all hover:border-brand/40 hover:bg-canvas hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:h-10 sm:w-10"
       >
-        <UserAvatar
-          name={user.name}
-          image={user.image}
-          className="h-8 w-8 text-[11px]"
-        />
-        <span className="hidden max-w-24 truncate sm:inline">{firstName}</span>
-        <FiChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-ink/45" />
+        {user.image ? (
+          <UserAvatar
+            name={user.name}
+            image={user.image}
+            className="h-full w-full text-[11px]"
+          />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center rounded-full text-ink transition-colors group-hover:text-brand">
+            <FiUser className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
+          </span>
+        )}
       </Dropdown.Trigger>
 
       <Dropdown.Popover placement="bottom end">
         <Dropdown.Menu aria-label="User menu" onAction={handleAction}>
+          <Dropdown.Item id="dashboard" textValue="Dashboard">
+            <span className="flex items-center gap-2">
+              <FiGrid aria-hidden="true" className="h-4 w-4 text-ink/55" />
+              Dashboard
+            </span>
+          </Dropdown.Item>
+
           <Dropdown.Item id="profile" textValue="Profile">
             <span className="flex items-center gap-2">
               <FiUser aria-hidden="true" className="h-4 w-4 text-ink/55" />
@@ -101,6 +118,15 @@ const User = () => {
                 className="h-4 w-4 text-ink/55"
               />
               Create Event
+            </span>
+          </Dropdown.Item>
+          <Dropdown.Item id="my-joined-events" textValue="My Joined Events">
+            <span className="flex items-center gap-2">
+              <FaRegCalendarCheck 
+                aria-hidden="true"
+                className="h-4 w-4 text-ink/55"
+              />
+              My Joined Events
             </span>
           </Dropdown.Item>
 

@@ -7,27 +7,59 @@ import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import logo from "@/app/assets/logo.jpg";
 import { useSession } from "@/app/lib/auth-client";
-import User from "@/components/profile/user";
-import ThemeToggle from "@/components/nave/ThemeToggle";
 
-// Navbar er menu links. Notun link lagle ekhane add koro.
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Upcoming Events", href: "/upcoming-event" },
-  { label: "About", href: "/about-us" },
-  { label: "Contact", href: "/contact" },
-] as const;
+import ThemeToggle from "@/components/nave/ThemeToggle";
+import User from "../auth/profile/user";
 
 // Ei link ta current page er link kina check kore.
-const isActiveLink = (pathname: string, href: string) =>
-  href === "/"
-    ? pathname === "/"
-    : pathname === href || pathname.startsWith(`${href}/`);
+const isActiveLink = (pathname: string, href: string) => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+  if (href === "/dashboard") {
+    return (
+      pathname === "/dashboard" ||
+      pathname.startsWith("/dashboard/") ||
+      pathname.startsWith("/my-events") ||
+      pathname.startsWith("/my-joined-events") ||
+      pathname.startsWith("/create-event") ||
+      pathname.startsWith("/event-edit") ||
+      pathname.startsWith("/profile")
+    );
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
 
 const Navebar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, isPending } = useSession();
+
+  // Desktop navigation links: logged in user der jonno Dashboard samne thake
+  const desktopNavLinks = session?.user
+    ? [
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Upcoming Events", href: "/upcoming-event" },
+        { label: "About", href: "/about-us" },
+        { label: "Contact", href: "/contact" },
+      ]
+    : [
+        { label: "Home", href: "/" },
+        { label: "Upcoming Events", href: "/upcoming-event" },
+        { label: "About", href: "/about-us" },
+        { label: "Contact", href: "/contact" },
+      ];
+
+  // Mobile navigation links: sohoje jate sob page e jaoa jay
+  const mobileNavLinks = session?.user
+    ? [
+        { label: "Home", href: "/" },
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Upcoming Events", href: "/upcoming-event" },
+        { label: "About", href: "/about-us" },
+        { label: "Contact", href: "/contact" },
+      ]
+    : desktopNavLinks;
 
   // Mobile menu open thakle Escape key chaple menu bondho hobe.
   useEffect(() => {
@@ -76,13 +108,13 @@ const Navebar = () => {
             width={48}
             height={48}
             priority
-            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-brand/20 sm:h-11 sm:w-11 lg:h-12 lg:w-12"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-brand/20 transition-transform duration-200 group-hover:scale-105 sm:h-11 sm:w-11 lg:h-12 lg:w-12"
           />
           <span className="flex min-w-0 flex-col">
-            <span className="truncate text-lg font-bold tracking-tight text-ink sm:text-xl">
-              Change <span className="text-brand">Nest</span>
+            <span className="truncate text-xl font-bold tracking-tight text-ink sm:text-2xl">
+              Change<span className="text-brand">Nest</span>
             </span>
-            <span className="mt-0.5 truncate text-[10px] font-medium uppercase tracking-[0.16em] text-ink/50 sm:text-[11px]">
+            <span className="truncate text-[10px] font-medium uppercase tracking-[0.16em] text-ink/50 sm:text-[11px]">
               Together We Grow
             </span>
           </span>
@@ -93,7 +125,7 @@ const Navebar = () => {
           className="hidden items-center gap-7 lg:flex"
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => {
+          {desktopNavLinks.map((link) => {
             const active = isActiveLink(pathname, link.href);
 
             return (
@@ -103,8 +135,8 @@ const Navebar = () => {
                 aria-current={active ? "page" : undefined}
                 className={`relative py-2 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-brand after:transition-transform after:duration-200 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                   active
-                    ? "text-brand after:scale-x-100"
-                    : "text-ink/70 after:scale-x-0 hover:text-ink hover:after:scale-x-100"
+                    ? "font-semibold text-brand after:scale-x-100"
+                    : "text-ink/75 after:scale-x-0 hover:text-ink hover:after:scale-x-100"
                 }`}
               >
                 {link.label}
@@ -152,7 +184,7 @@ const Navebar = () => {
       >
         <nav className="px-4 py-4 sm:px-6" aria-label="Mobile navigation">
           <ul className="space-y-1">
-            {navLinks.map((link) => {
+            {mobileNavLinks.map((link) => {
               const active = isActiveLink(pathname, link.href);
 
               return (
@@ -163,8 +195,8 @@ const Navebar = () => {
                     aria-current={active ? "page" : undefined}
                     className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                       active
-                        ? "bg-brand/10 text-ink"
-                        : "text-ink/70 hover:bg-canvas hover:text-ink"
+                        ? "bg-brand/10 font-semibold text-brand"
+                        : "text-ink/75 hover:bg-canvas hover:text-ink"
                     }`}
                   >
                     {link.label}

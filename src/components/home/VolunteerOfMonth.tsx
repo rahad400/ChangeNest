@@ -57,17 +57,17 @@ const VolunteerOfMonth = () => {
           }
         />
 
-        <div className="relative mt-10 overflow-hidden rounded-[2.5rem] bg-navy text-white shadow-2xl shadow-navy/15">
+        <div className="relative mt-10 overflow-hidden rounded-[2.5rem] border border-ink/10 bg-surface text-ink shadow-xl shadow-navy/5 transition-colors duration-200 dark:border-white/10 dark:bg-navy dark:text-white dark:shadow-2xl dark:shadow-navy/15">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-brand/15 blur-3xl"
+            className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-brand/10 blur-3xl dark:bg-brand/15"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-25"
+            className="pointer-events-none absolute inset-0 opacity-20 dark:opacity-25"
             style={{
               backgroundImage:
-                "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                "linear-gradient(to right, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px)",
               backgroundSize: "64px 64px",
               maskImage:
                 "radial-gradient(ellipse at center, black, transparent 74%)",
@@ -81,27 +81,27 @@ const VolunteerOfMonth = () => {
                   <Award aria-hidden="true" className="h-3.5 w-3.5" />
                   Volunteer spotlight
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white/40">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-canvas px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-ink/50 dark:border-white/10 dark:bg-white/5 dark:text-white/40">
                   Sample profile
                 </span>
               </div>
 
-              <h3 className="mt-6 text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+              <h3 className="mt-6 text-balance text-3xl font-bold tracking-tight text-ink dark:text-white sm:text-4xl">
                 {name}
               </h3>
-              <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/55">
+              <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink/60 dark:text-white/55">
                 <span>{role}</span>
                 <span
                   aria-hidden="true"
-                  className="h-1 w-1 rounded-full bg-white/25"
+                  className="h-1 w-1 rounded-full bg-ink/20 dark:bg-white/25"
                 />
                 <span className="inline-flex items-center gap-1">
-                  <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+                  <MapPin aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
                   {city}
                 </span>
               </p>
 
-              <blockquote className="relative mt-6 max-w-xl text-base leading-7 text-white/75 sm:text-lg sm:leading-8">
+              <blockquote className="relative mt-6 max-w-xl text-base leading-7 text-ink/75 dark:text-white/75 sm:text-lg sm:leading-8">
                 <Quote
                   aria-hidden="true"
                   className="absolute -left-1 -top-4 h-8 w-8 text-brand/20"
@@ -109,22 +109,22 @@ const VolunteerOfMonth = () => {
                 <span className="relative pl-6">{quote}</span>
               </blockquote>
 
-              <dl className="mt-7 grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.04] py-4 text-center">
+              <dl className="mt-7 grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-canvas/80 py-4 text-center dark:divide-white/10 dark:border-white/10 dark:bg-white/[0.04]">
                 <div>
-                  <dd className="text-2xl font-bold text-white">{hours}</dd>
-                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">
+                  <dd className="text-2xl font-bold text-ink dark:text-white">{hours}</dd>
+                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/50 dark:text-white/40">
                     Hours
                   </dt>
                 </div>
                 <div>
-                  <dd className="text-2xl font-bold text-white">{events}</dd>
-                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">
+                  <dd className="text-2xl font-bold text-ink dark:text-white">{events}</dd>
+                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/50 dark:text-white/40">
                     Events
                   </dt>
                 </div>
                 <div>
-                  <dd className="text-2xl font-bold text-white">{causes}</dd>
-                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">
+                  <dd className="text-2xl font-bold text-ink dark:text-white">{causes}</dd>
+                  <dt className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/50 dark:text-white/40">
                     Causes
                   </dt>
                 </div>
@@ -134,7 +134,7 @@ const VolunteerOfMonth = () => {
                 {achievements.map((achievement) => (
                   <li
                     key={achievement}
-                    className="flex items-start gap-2.5 text-sm text-white/65"
+                    className="flex items-start gap-2.5 text-sm text-ink/70 dark:text-white/65"
                   >
                     <CheckCircle2
                       aria-hidden="true"
@@ -147,7 +147,7 @@ const VolunteerOfMonth = () => {
 
               <Link
                 href="/sign-up"
-                className="group mt-8 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-navy transition hover:bg-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                className="group mt-8 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 dark:text-navy dark:hover:bg-emerald-300"
               >
                 <Sparkles aria-hidden="true" className="h-4 w-4" />
                 Start your own story
@@ -168,15 +168,15 @@ const VolunteerOfMonth = () => {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent lg:bg-gradient-to-r lg:from-navy/45 lg:via-transparent"
+                className="absolute inset-0 bg-gradient-to-t from-surface/90 via-surface/30 to-transparent lg:bg-gradient-to-r lg:from-surface/90 lg:via-surface/30 lg:to-transparent dark:from-navy/80 dark:via-transparent dark:to-transparent dark:lg:from-navy/60 dark:lg:via-transparent"
               />
 
-              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-6">
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 rounded-2xl border border-ink/15 bg-surface/90 px-4 py-3 text-ink backdrop-blur-md dark:border-white/15 dark:bg-white/10 dark:text-white sm:bottom-6 sm:left-6 sm:right-6">
                 <div>
-                  <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/55">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-ink/60 dark:text-white/55">
                     This month&apos;s recognition
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-white">
+                  <p className="mt-1 text-sm font-semibold text-ink dark:text-white">
                     Community cleanup lead
                   </p>
                 </div>

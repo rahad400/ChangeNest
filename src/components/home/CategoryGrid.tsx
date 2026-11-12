@@ -2,17 +2,22 @@
 
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import {
-  categories,
-  eventCountByCategory,
-  type CategoryId,
-} from "./data";
+import { categories, type CategoryId } from "./data";
 import { useHomeSearch } from "./HomeSearch";
 import { SectionHeading } from "./ui";
+import type { IEvent } from "@/types";
 
-const CategoryGrid = () => {
+type CategoryGridProps = {
+  events: IEvent[];
+};
+
+const CategoryGrid = ({ events }: CategoryGridProps) => {
   const { category: activeCategory, setCategory, scrollToEvents } =
     useHomeSearch();
+
+  // Count backend er real event theke hiseb hoy, demo data theke na.
+  const countByCategory = (categoryId: CategoryId) =>
+    events.filter((event) => event.values.categoryId === categoryId).length;
 
   // Category click korle filter set kore upcoming list e scroll koro.
   const focusCategory = (categoryId: CategoryId) => {
@@ -41,7 +46,7 @@ const CategoryGrid = () => {
           description="Pick a cause to jump straight to matching events. Browsing is always free, and you can change your mind as often as you like."
           action={
             <Link
-              href="/events"
+              href="/upcoming-event"
               className="group inline-flex items-center gap-2 text-sm font-semibold text-brand transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
               Browse all events
@@ -53,11 +58,33 @@ const CategoryGrid = () => {
           }
         />
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-8 flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setCategory("all");
+              scrollToEvents();
+            }}
+            aria-pressed={activeCategory === "all"}
+            className={`inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
+              activeCategory === "all"
+                ? "border-brand/40 bg-brand/10 text-brand"
+                : "border-ink/10 bg-surface text-ink/55 hover:border-brand/30 hover:text-ink"
+            }`}
+          >
+            All categories
+          </button>
+          <p className="text-xs text-ink/45">
+            {events.length} {events.length === 1 ? "event" : "events"} live
+            right now
+          </p>
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {categories.map(
             ({ id, label, description, icon: Icon, tone, dot }) => {
               const active = activeCategory === id;
-              const count = eventCountByCategory[id];
+              const count = countByCategory(id);
 
               return (
                 <button

@@ -86,7 +86,7 @@ const AboutUsPage = () => {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/events"
+                href="/upcoming-event"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-navy shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 Explore Events
@@ -94,7 +94,7 @@ const AboutUsPage = () => {
               </Link>
 
               <Link
-                href="/join"
+                href="/sign-up"
                 className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-surface px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:border-ink/30 hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 Join Us
@@ -262,7 +262,7 @@ const AboutUsPage = () => {
 
             <div className="flex flex-col gap-3 sm:flex-row lg:shrink-0">
               <Link
-                href="/events"
+                href="/upcoming-event"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
               >
                 Explore Events
@@ -270,7 +270,7 @@ const AboutUsPage = () => {
               </Link>
 
               <Link
-                href="/join"
+                href="/sign-up"
                 className="inline-flex items-center justify-center rounded-full border border-navy/20 bg-white/85 px-6 py-3.5 text-sm font-semibold text-navy transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
               >
                 Join Us

@@ -50,7 +50,7 @@ const CommunityLocations = () => {
             {communities.map(({ city, events, focus, description }, index) => (
               <Link
                 key={city}
-                href={`/events?city=${encodeURIComponent(city)}`}
+                href="/upcoming-event"
                 className="group flex min-w-0 items-center gap-4 rounded-2xl border border-ink/10 bg-surface p-4 shadow-sm shadow-navy/5 transition duration-300 hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-lg hover:shadow-navy/5 motion-reduce:transform-none"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-xs font-bold text-brand">
@@ -165,7 +165,7 @@ const CommunityLocations = () => {
                 </p>
               </div>
               <Link
-                href="/events"
+                href="/upcoming-event"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 Explore

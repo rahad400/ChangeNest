@@ -192,7 +192,7 @@ const SignUpForm = () => {
 
     try {
       // Better Auth e shudhu name, email ar password pathano hocche.
-      const { data, error } = await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         name: values.name.trim(),
         email: values.email.trim(),
         password: values.password,
@@ -238,6 +238,15 @@ const SignUpForm = () => {
         newUserCallbackURL: "/",
         errorCallbackURL: "/sign-up",
       });
+
+      if (error) {
+        const message =
+          error.message ||
+          "We couldn't connect to Google. Please try again.";
+
+        setFormError(message);
+        toast.error(message);
+      }
     } catch {
       const message =
         "Something went wrong while connecting to Google. Check your connection and try again.";

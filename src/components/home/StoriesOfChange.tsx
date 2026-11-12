@@ -27,10 +27,10 @@ const StoriesOfChange = () => {
           description="The numbers matter, but the stories are what stay with us. Here is what happens after the sign-up sheet is put away."
           action={
             <Link
-              href="/stories"
+              href="/about-us"
               className="group inline-flex items-center gap-2 text-sm font-semibold text-brand transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
             >
-              Read all stories
+              Learn our story
               <ArrowRight
                 aria-hidden="true"
                 className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none"
@@ -69,7 +69,7 @@ const StoriesOfChange = () => {
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="text-lg font-bold tracking-tight text-ink">
                   <Link
-                    href="/stories"
+                    href="/upcoming-event"
                     className="outline-none transition-colors hover:text-brand focus-visible:underline"
                   >
                     {title}
@@ -80,10 +80,10 @@ const StoriesOfChange = () => {
                 </p>
 
                 <Link
-                  href="/stories"
+                  href="/upcoming-event"
                   className="mt-auto inline-flex items-center gap-1.5 pt-5 text-xs font-semibold text-brand transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
-                  Read more
+                  Join similar events
                   <ArrowUpRight
                     aria-hidden="true"
                     className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
