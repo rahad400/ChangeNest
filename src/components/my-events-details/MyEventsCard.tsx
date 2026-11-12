@@ -8,6 +8,8 @@ type MyEventsCardProps = {
 };
 
 const MyEventsCard = ({ event }: MyEventsCardProps) => {
+
+
   const imageSource = event.image?.url || event.image?.dataUrl;
 
   return (

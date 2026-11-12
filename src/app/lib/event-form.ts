@@ -58,8 +58,8 @@ export const initialEventFormValues: EventFormValues = {
   categoryId: "",
   description: "",
   date: "",
-  startTime: "",
-  endTime: "",
+  startTime: "00:00",
+  endTime: "00:00",
   city: "",
   venue: "",
   capacity: "",
@@ -122,9 +122,7 @@ export const formatEventTime = (value: string) => {
   return `${displayHour}:${String(minute).padStart(2, "0")} ${suffix}`;
 };
 
-export const validateEventForm = (
-  values: EventFormValues,
-): EventFormErrors => {
+export const validateEventForm = (values: EventFormValues): EventFormErrors => {
   const errors: EventFormErrors = {};
 
   const title = values.title.trim();

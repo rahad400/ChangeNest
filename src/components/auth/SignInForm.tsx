@@ -87,8 +87,14 @@ const getFieldErrors = (values: FormValues): FieldErrors => {
   return errors;
 };
 
-const SignInForm = () => {
+const SignInForm = ({ redirectTo }: { redirectTo?: string }) => {
   const router = useRouter();
+
+  // Only local paths allowed, jate open redirect na hoy.
+  const safeRedirect =
+    redirectTo && redirectTo.startsWith("/") && !redirectTo.startsWith("//")
+      ? redirectTo
+      : "/";
 
   const [values, setValues] = useState<FormValues>(initialValues);
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>(
@@ -150,10 +156,21 @@ const SignInForm = () => {
         email: values.email.trim(),
         password: values.password,
         rememberMe,
-        callbackURL: "/",
+        callbackURL: safeRedirect,
       });
+
+      if (error) {
+        const message =
+          error.message ||
+          "We couldn't sign you in. Check your email and password and try again.";
+
+        setFormError(message);
+        toast.error(message);
+        return;
+      }
+
       toast.success("Welcome back to ChangeNest!");
-      router.replace("/");
+      router.replace(safeRedirect);
       router.refresh();
     } catch {
       const message =
@@ -175,10 +192,18 @@ const SignInForm = () => {
     try {
       const { error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: safeRedirect,
         errorCallbackURL: "/sign-in",
       });
 
+      if (error) {
+        const message =
+          error.message ||
+          "We couldn't connect to Google. Please try again.";
+
+        setFormError(message);
+        toast.error(message);
+      }
     } catch {
       const message =
         "Something went wrong while connecting to Google. Check your connection and try again.";

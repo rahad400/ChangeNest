@@ -82,6 +82,13 @@ const DRAFT_SAVE_DELAY = 600;
 const REQUIRED_DETAIL_COUNT = Object.keys(initialEventFormValues).length;
 const timeInputPattern = /^([01]\d|2[0-3]):[0-5]\d$/;
 
+// My events form er moto input er background surface rakhi.
+const inputSurfaceClassName = "bg-surface";
+
+// Guidelines checkbox selected/focus state brand green hobe.
+const brandCheckboxClassName =
+  "w-full [--accent:var(--color-brand)] [--accent-hover:var(--color-brand)] [--focus:var(--color-brand)]";
+
 const fieldLabels: Record<EventFormField, string> = {
   title: "Event name",
   categoryId: "Cause",
@@ -973,6 +980,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>Event name</Label>
                 <Input
+                  className={inputSurfaceClassName}
                   placeholder="e.g. Community garden clean-up"
                   maxLength={120}
                   onBlur={() => validateField("title")}
@@ -1003,7 +1011,11 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
                 className="w-full"
               >
                 <Label>Cause</Label>
-                <Select.Trigger ref={categoryTriggerRef} type="button">
+                <Select.Trigger
+                  ref={categoryTriggerRef}
+                  type="button"
+                  className={inputSurfaceClassName}
+                >
                   <Select.Value />
                   <Select.Indicator />
                 </Select.Trigger>
@@ -1037,6 +1049,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>Volunteer spots</Label>
                 <Input
+                  className={inputSurfaceClassName}
                   type="number"
                   min={1}
                   max={5000}
@@ -1066,6 +1079,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>What will volunteers do?</Label>
                 <TextArea
+                  className={inputSurfaceClassName}
                   rows={5}
                   maxLength={2000}
                   placeholder="Share the purpose, activities, and anything volunteers should know."
@@ -1273,6 +1287,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
                 >
                   <Label>Image URL</Label>
                   <Input
+                    className={inputSurfaceClassName}
                     type="url"
                     placeholder="https://example.com/event-image.jpg"
                     maxLength={2048}
@@ -1335,6 +1350,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>Date</Label>
                 <Input
+                  className={inputSurfaceClassName}
                   type="date"
                   min={todayDateValue()}
                   onBlur={() => validateField("date")}
@@ -1351,14 +1367,18 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               <TextField
                 id="event-start-time"
                 name="startTime"
-                value={values.startTime || "00:00"}
+                value={values.startTime }
                 onChange={handleStartTimeChange}
                 isInvalid={Boolean(errors.startTime)}
                 isDisabled={isSubmitting}
                 isRequired
               >
                 <Label>Start time</Label>
-                <Input type="time" onBlur={() => validateField("startTime")} />
+                <Input
+                  className={inputSurfaceClassName}
+                  type="time"
+                  onBlur={() => validateField("startTime")}
+                />
                 {errors.startTime && (
                   <FieldError>{errors.startTime}</FieldError>
                 )}
@@ -1367,14 +1387,18 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               <TextField
                 id="event-end-time"
                 name="endTime"
-                value={values.endTime || "00:00"}
+                value={values.endTime}
                 onChange={(value) => updateField("endTime", value)}
                 isInvalid={Boolean(errors.endTime)}
                 isDisabled={isSubmitting}
                 isRequired
               >
                 <Label>End time</Label>
-                <Input type="time" onBlur={() => validateField("endTime")} />
+                <Input
+                  className={inputSurfaceClassName}
+                  type="time"
+                  onBlur={() => validateField("endTime")}
+                />
                 {errors.endTime && <FieldError>{errors.endTime}</FieldError>}
               </TextField>
             </div>
@@ -1419,6 +1443,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>City</Label>
                 <Input
+                  className={inputSurfaceClassName}
                   list="event-city-options"
                   placeholder="e.g. Dhaka"
                   maxLength={80}
@@ -1443,6 +1468,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               >
                 <Label>Venue or meeting point</Label>
                 <Input
+                  className={inputSurfaceClassName}
                   placeholder="e.g. Ramna Park, west entrance"
                   maxLength={160}
                   onBlur={() => validateField("venue")}
@@ -1466,7 +1492,7 @@ const CreateEventForm = ({ userId }: CreateEventFormProps) => {
               onChange={(checked) => updateField("guidelines", checked)}
               isInvalid={Boolean(errors.guidelines)}
               isRequired
-              className="w-full"
+              className={brandCheckboxClassName}
               isDisabled={isSubmitting}
             >
               <Checkbox.Content>

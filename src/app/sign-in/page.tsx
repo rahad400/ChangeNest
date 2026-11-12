@@ -30,7 +30,10 @@ const benefits = [
   },
 ] as const;
 
-const SignInPage = () => {
+const SignInPage = async ({ searchParams }: PageProps<"/sign-in">) => {
+  const params = await searchParams;
+  const next = typeof params.next === "string" ? params.next : undefined;
+
   return (
     // Pura sign-in page er main wrapper.
     <main className="relative isolate overflow-hidden bg-canvas">
@@ -188,7 +191,7 @@ const SignInPage = () => {
                   off.
                 </p>
 
-                <SignInForm />
+                <SignInForm redirectTo={next} />
               </div>
             </div>
           </div>
