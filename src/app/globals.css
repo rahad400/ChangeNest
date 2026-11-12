@@ -1,12 +1,30 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+/* Class-based dark mode. Toggle html er upor .dark class add/remove kore. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ChangeNest er brand colors. Ekhane change korle pura site e update hobe. */
 @theme {
   --color-brand: #16a34a;
   --color-ink: #0f172a;
   --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-navy: #0f172a;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* Dark theme e text ar page/card background swap hobe. Navy always dark thake. */
+.dark {
+  color-scheme: dark;
+  --color-brand: #22c55e;
+  --color-ink: #e2e8f0;
+  --color-canvas: #0b1220;
+  --color-surface: #111827;
 }
 
 /* Hero icon er halka up-down animation. */
@@ -48,9 +66,18 @@
   animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Native FAQ details open hole plus icon rotate hobe. */
+details[open] .faq-plus {
+  transform: rotate(45deg);
+}
+
 /* Reduced motion prefer korle animation bondho hobe. */
 @media (prefers-reduced-motion: reduce) {
   .rise-in {
     animation: none;
+  }
+
+  details[open] .faq-plus {
+    transform: none;
   }
 }

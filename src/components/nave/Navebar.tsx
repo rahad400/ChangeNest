@@ -2,39 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FiLogOut, FiMenu, FiX } from "react-icons/fi";
-import { toast } from "react-toastify";
+import { FiMenu, FiX } from "react-icons/fi";
 import logo from "@/app/assets/logo.jpg";
-import { signOut, useSession } from "@/app/lib/auth-client";
-import UserAvatar from "@/components/profile/UserAvatar";
+import { useSession } from "@/app/lib/auth-client";
 import User from "@/components/profile/user";
+import ThemeToggle from "@/components/nave/ThemeToggle";
 
 // Navbar er menu links. Notun link lagle ekhane add koro.
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Upcoming Events", href: "/events" },
-  { label: "About Us", href: "/about-us" },
+  { label: "Upcoming Events", href: "/upcoming-event" },
+  { label: "About", href: "/about-us" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
 // Ei link ta current page er link kina check kore.
-// Example: /about-us page e thakle "About Us" active hobe.
 const isActiveLink = (pathname: string, href: string) =>
   href === "/"
     ? pathname === "/"
     : pathname === href || pathname.startsWith(`${href}/`);
 
 const Navebar = () => {
-  // Current page er path. Example: "/" or "/about".
   const pathname = usePathname();
-  const router = useRouter();
-
-  // Mobile menu open (true) ba closed (false) ache kina.
   const [isOpen, setIsOpen] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
-
   const { data: session, isPending } = useSession();
 
   // Mobile menu open thakle Escape key chaple menu bondho hobe.
@@ -49,39 +41,11 @@ const Navebar = () => {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [isOpen]);
 
-  // Menu close korar choto helper.
   const closeMenu = () => setIsOpen(false);
-
-  // Sign out er por session clear hobe ar page refresh hobe.
-  const handleSignOut = async () => {
-    if (isSigningOut) return;
-
-    setIsSigningOut(true);
-
-    try {
-      const { error } = await signOut();
-
-      if (error) {
-        toast.error(
-          error.message || "Couldn't sign you out. Please try again.",
-        );
-        return;
-      }
-
-      closeMenu();
-      toast.success("You've been signed out.");
-      router.replace("/");
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong while signing you out.");
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
 
   return (
     // Sticky header: page scroll korleo navbar upore fixed thake.
-    <header className="sticky top-0 z-50 border-b border-ink/10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-surface/90 backdrop-blur-xl supports-[backdrop-filter]:bg-surface/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
         {/* Mobile menu open/close button. */}
         <button
@@ -103,12 +67,12 @@ const Navebar = () => {
         <Link
           href="/"
           onClick={closeMenu}
-          aria-label="Change Nest home"
+          aria-label="ChangeNest home"
           className="group flex min-w-0 items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:gap-3"
         >
           <Image
             src={logo}
-            alt="Change Nest logo"
+            alt="ChangeNest logo"
             width={48}
             height={48}
             priority
@@ -130,7 +94,6 @@ const Navebar = () => {
           aria-label="Main navigation"
         >
           {navLinks.map((link) => {
-            // Ei link ta active kina check koro.
             const active = isActiveLink(pathname, link.href);
 
             return (
@@ -140,7 +103,7 @@ const Navebar = () => {
                 aria-current={active ? "page" : undefined}
                 className={`relative py-2 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-brand after:transition-transform after:duration-200 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                   active
-                    ? "text-green-600  after:scale-x-100"
+                    ? "text-brand after:scale-x-100"
                     : "text-ink/70 after:scale-x-0 hover:text-ink hover:after:scale-x-100"
                 }`}
               >
@@ -150,8 +113,10 @@ const Navebar = () => {
           })}
         </nav>
 
-        {/* Session thakle profile ar sign out, nahole sign in. */}
-        <div className="hidden items-center gap-2 sm:flex">
+        {/* Theme toggle ar auth actions. Sob screen size e visible. */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+
           {isPending ? (
             <span
               aria-hidden="true"
@@ -160,12 +125,20 @@ const Navebar = () => {
           ) : session?.user ? (
             <User />
           ) : (
-            <Link
-              href="/sign-in"
-              className="inline-flex items-center justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-ink shadow-sm shadow-brand/20 transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-            >
-              Sign In
-            </Link>
+            <>
+              <Link
+                href="/sign-in"
+                className="hidden rounded-full px-3 py-2.5 text-sm font-semibold text-ink/65 transition-colors hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 md:inline-flex"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/sign-up"
+                className="hidden items-center justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-navy shadow-sm shadow-brand/20 transition-colors hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:inline-flex"
+              >
+                Get started
+              </Link>
+            </>
           )}
         </div>
       </div>
@@ -173,14 +146,13 @@ const Navebar = () => {
       {/* Mobile menu. Choto screen e button chaple niche open hobe. */}
       <div
         id="mobile-navigation"
-        className={`absolute inset-x-0 top-full border-t border-ink/10 bg-white shadow-xl shadow-ink/5 lg:hidden ${
+        className={`absolute inset-x-0 top-full border-t border-ink/10 bg-surface shadow-xl shadow-navy/5 lg:hidden ${
           isOpen ? "block" : "hidden"
         }`}
       >
         <nav className="px-4 py-4 sm:px-6" aria-label="Mobile navigation">
           <ul className="space-y-1">
             {navLinks.map((link) => {
-              // Ei link ta active kina check koro.
               const active = isActiveLink(pathname, link.href);
 
               return (
@@ -208,48 +180,25 @@ const Navebar = () => {
             })}
           </ul>
 
-          {/* Mobile screen er profile ar sign out actions. */}
-          {isPending ? null : session?.user ? (
-            <div className="mt-4 space-y-2 sm:hidden">
+          {/* Signed out hole mobile menu e login ar get started. */}
+          {!isPending && !session?.user ? (
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
               <Link
-                href="/profile"
+                href="/sign-in"
                 onClick={closeMenu}
-                className="flex items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-3 transition-colors hover:bg-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                className="flex w-full items-center justify-center rounded-xl border border-ink/15 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-brand/40 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               >
-                <UserAvatar
-                  name={session.user.name}
-                  image={session.user.image}
-                  className="h-10 w-10 text-sm"
-                />
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-semibold text-ink">
-                    {session.user.name}
-                  </span>
-                  <span className="block truncate text-xs text-ink/50">
-                    {session.user.email}
-                  </span>
-                </span>
+                Log in
               </Link>
-
-              <button
-                type="button"
-                onClick={handleSignOut}
-                disabled={isSigningOut}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-ink/10 px-4 py-3 text-sm font-semibold text-ink/70 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              <Link
+                href="/sign-up"
+                onClick={closeMenu}
+                className="flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               >
-                <FiLogOut aria-hidden="true" className="h-4 w-4" />
-                {isSigningOut ? "Signing out..." : "Sign Out"}
-              </button>
+                Get started
+              </Link>
             </div>
-          ) : (
-            <Link
-              href="/sign-in"
-              onClick={closeMenu}
-              className="mt-4 flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:hidden"
-            >
-              Sign In
-            </Link>
-          )}
+          ) : null}
         </nav>
       </div>
     </header>

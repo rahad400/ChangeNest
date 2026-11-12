@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-type UserAvatarProps = {
-  name: string;
-  image?: string | null;
-  className?: string;
-};
+import type { UserAvatarProps } from "@/types";
 
 // Name theke initials ber koro. Example: "Rahim Khan" -> "RK".
 const getInitials = (name: string) => {

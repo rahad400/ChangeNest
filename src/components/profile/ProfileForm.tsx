@@ -11,18 +11,10 @@ import {
 } from "react-icons/fi";
 import { authClient } from "@/app/lib/auth-client";
 import UserAvatar from "@/components/profile/UserAvatar";
-
-type ProfileFormProps = {
-  user: {
-    name: string;
-    email: string;
-    image?: string | null;
-  };
-  memberSince: string;
-};
+import type { ProfileFormProps } from "@/types";
 
 const inputBase =
-  "w-full rounded-2xl border text-sm text-ink shadow-sm shadow-ink/5 outline-none transition placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed";
+  "w-full rounded-2xl border text-sm text-ink shadow-sm shadow-navy/5 outline-none transition placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed";
 
 const inputTone = (invalid: boolean) =>
   invalid
@@ -185,7 +177,7 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
             aria-describedby={
               nameTouched && nameError ? "profile-name-error" : undefined
             }
-            className={`${inputBase} mt-2 bg-white px-4 py-3 ${inputTone(
+            className={`${inputBase} mt-2 bg-surface px-4 py-3 ${inputTone(
               Boolean(nameTouched && nameError),
             )}`}
           />
@@ -253,7 +245,7 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
                 ? "profile-image-error"
                 : "profile-image-hint"
             }
-            className={`${inputBase} mt-2 bg-white px-4 py-3 ${inputTone(
+            className={`${inputBase} mt-2 bg-surface px-4 py-3 ${inputTone(
               Boolean(imageTouched && imageError),
             )}`}
           />
@@ -275,7 +267,7 @@ const ProfileForm = ({ user, memberSince }: ProfileFormProps) => {
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-ink shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-navy shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
           >
             {isSaving ? (
               <>

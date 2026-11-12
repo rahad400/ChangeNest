@@ -14,7 +14,7 @@ const subjectOptions = [
 
 // Input ar textarea er common style.
 const fieldStyles =
-  "mt-2 w-full rounded-2xl border border-ink/15 bg-white px-4 py-3 text-sm text-ink shadow-sm shadow-ink/5 outline-none transition placeholder:text-ink/40 focus:border-brand focus:ring-2 focus:ring-brand/25";
+  "mt-2 w-full rounded-2xl border border-ink/15 bg-surface px-4 py-3 text-sm text-ink shadow-sm shadow-navy/5 outline-none transition placeholder:text-ink/40 focus:border-brand focus:ring-2 focus:ring-brand/25";
 
 const ContactForm = () => {
   // Mailto link ready hole success message dekhabo.
@@ -114,7 +114,7 @@ const ContactForm = () => {
       <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-navy shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
         >
           Send message
           <FiSend aria-hidden="true" className="h-4 w-4" />

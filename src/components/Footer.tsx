@@ -51,11 +51,11 @@ const headingStyles =
 
 // Footer link er common style.
 const linkStyles =
-  "rounded-sm text-sm text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink";
+  "rounded-sm text-sm text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy";
 
 const Footer = () => {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-ink text-white">
+    <footer className="relative mt-auto overflow-hidden bg-navy text-white">
       {/* Footer er upore halka emerald gradient line. */}
       <div
         aria-hidden="true"
@@ -80,7 +80,7 @@ const Footer = () => {
             <Link
               href="/"
               aria-label="ChangeNest home"
-              className="inline-flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+              className="inline-flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
               <Image
                 src={logo}
@@ -151,7 +151,7 @@ const Footer = () => {
                   {href ? (
                     <a
                       href={href}
-                      className="group flex items-start gap-2.5 rounded-sm text-sm text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                      className="group flex items-start gap-2.5 rounded-sm text-sm text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                     >
                       <Icon
                         aria-hidden="true"
@@ -182,7 +182,7 @@ const Footer = () => {
                   <a
                     href={href}
                     aria-label={`ChangeNest on ${label}`}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/60 transition hover:border-brand/30 hover:bg-brand/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/60 transition hover:border-brand/30 hover:bg-brand/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                   >
                     <Icon
                       aria-hidden="true"
@@ -205,7 +205,7 @@ const Footer = () => {
           <div className="flex items-center gap-3">
             <Link
               href="/privacy"
-              className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+              className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
               Privacy Policy
             </Link>
@@ -214,7 +214,7 @@ const Footer = () => {
             </span>
             <Link
               href="/terms"
-              className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+              className="rounded-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
             >
               Terms &amp; Conditions
             </Link>

@@ -23,12 +23,11 @@ import {
 } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/app/lib/auth-client";
-
-type FieldName = "email" | "password";
-
-type FormValues = Record<FieldName, string>;
-
-type FieldErrors = Partial<Record<FieldName, string>>;
+import type {
+  SignInFieldName as FieldName,
+  SignInValues as FormValues,
+  SignInErrors as FieldErrors,
+} from "@/types";
 
 const initialValues: FormValues = {
   email: "",
@@ -43,7 +42,7 @@ const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 // Input er common look. Error hole red tone hobe.
 const inputBase =
-  "w-full rounded-2xl border bg-white text-sm text-ink shadow-sm shadow-ink/5 outline-none transition placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed disabled:bg-canvas";
+  "w-full rounded-2xl border bg-surface text-sm text-ink shadow-sm shadow-navy/5 outline-none transition placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed disabled:bg-canvas";
 const inputWithIcon = "py-3 pl-11 pr-4";
 const passwordSize = "py-3 pl-11 pr-12";
 
@@ -207,7 +206,7 @@ const SignInForm = () => {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isSubmitting || isGoogleLoading}
-            className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-white px-6 py-3.5 text-sm font-semibold text-ink shadow-sm shadow-ink/5 transition hover:-translate-y-0.5 hover:border-ink/25 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
+            className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-surface px-6 py-3.5 text-sm font-semibold text-ink shadow-sm shadow-navy/5 transition hover:-translate-y-0.5 hover:border-ink/25 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
           >
             {isGoogleLoading ? (
               <>
@@ -380,7 +379,7 @@ const SignInForm = () => {
         <button
           type="submit"
           disabled={isSubmitting || isGoogleLoading}
-          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
+          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-navy shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 motion-reduce:transform-none"
         >
           {isSubmitting ? (
             <>

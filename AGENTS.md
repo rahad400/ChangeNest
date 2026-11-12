@@ -17,7 +17,7 @@ Single-package Next.js 16 App Router site (`next` 16.4.5, React 19, React Compil
 - Install with npm (`package-lock.json` is the only lockfile); ignore the README's yarn/pnpm/bun alternatives.
 - `npm run dev` — Turbopack dev server on localhost:3000. Run this (or `npm run build`) once before a standalone `tsc` run so `.next` route types exist.
 - `npm run lint` — ESLint across the repo; use `npx eslint <path>` for one file. No formatter is configured.
-- `npx tsc --noEmit` — typecheck; `npm run build` is the full verification (typecheck + production build). There is no test runner or `npm test`.
+- `npx tsc --noEmit` — typecheck (there is no `typecheck` script); `npm run build` is the full verification (typecheck + production build). There is no test runner or `npm test`.
 
 ## Auth / environment
 
@@ -25,21 +25,27 @@ Single-package Next.js 16 App Router site (`next` 16.4.5, React 19, React Compil
 - The Mongo database name is hardcoded as `change-nest` in `src/app/lib/auth.ts`; the database named in `MONGO_URI` is ignored.
 - Server config: `src/app/lib/auth.ts`. Browser client: `src/app/lib/auth-client.ts` (re-exports `signIn`, `signUp`, `signOut`, `useSession`; profile saving uses `authClient.updateUser`). Catch-all handler: `src/app/api/auth/[...all]/route.ts` (via `toNextJsHandler`). This project uses `src/app/lib/`, not `src/lib/`.
 - Import `auth` only in server code and `authClient` only in client components (`"use client"`). In client code call e.g. `authClient.signOut()`; do not import auth helpers from `better-auth/api`. Auth UI calls `authClient` directly; there are no auth server actions.
-- Only `/profile` is server-protected: its page calls `auth.api.getSession({ headers: await headers() })` and redirects to `/sign-in`; there is no middleware.
+- Better Auth client calls report API failures in `{ error }` rather than throwing; handle `error` explicitly (see `ProfileForm`/`SignUpForm`). `signUp.email` also creates the session immediately. `SignInForm` currently ignores the returned `error` for email and Google sign-in — don't copy that part.
+- `/profile` and `/events/create` are server-protected: their pages call `auth.api.getSession({ headers: await headers() })` and redirect to `/sign-in`; there is no middleware.
 
 ## Styling / UI
 
 - Tailwind CSS v4 runs through the `@tailwindcss/turbopack` loader for all `*.css` in `next.config.ts`, not PostCSS. There is no `tailwind.config.*` or `postcss.config.*`; don't add one for ordinary utility styles.
 - `src/app/globals.css` imports both `tailwindcss` and `@heroui/styles`; keep both. HeroUI is v3 (`@heroui/react` 3.x); `src/components/profile/user.tsx` is the only current usage. Don't add a provider or apply v2/NextUI setup from memory.
-- Theme tokens are defined in `globals.css` via `@theme`: `brand` (`#16A34A`), `ink` (`#0F172A`), `canvas` (`#F8FAFC`). Use them instead of hard-coded colors.
+- Theme tokens are defined in `globals.css` via `@theme`: `brand` (`#16A34A`), `ink` (foreground), `canvas` (page background), `surface` (cards/inputs), and `navy` (always-dark panels/buttons). Use these for brand/chrome colors instead of hard-coded hex values.
+- Dark mode is class-based via `@custom-variant dark` and `.dark` on `<html>`; `brand`, `ink`, `canvas`, and `surface` are overridden in `.dark` (`brand` becomes `#22c55e`), while `navy` stays dark. `src/components/nave/ThemeToggle.tsx` toggles and persists it under the `theme` localStorage key, with system preference as fallback.
+- `src/app/layout.tsx` has a synchronous inline script (and `suppressHydrationWarning`) that applies the saved/system theme before first paint; keep it in sync with the toggle if the storage key changes.
 - Comments are transliterated Bengali ("Banglish"), e.g. `// Error hole red tone hobe.`; user-facing copy stays English. Match that style when adding comments.
 
 ## Structure
 
 - Root chrome: `src/app/layout.tsx` (navbar, footer, `ToastContainer`).
 - Live navbar: `src/components/nave/Navebar.tsx` (imported by the layout; note the `nave`/`Navebar` spellings).
-- Feature components live under `src/components/<feature>/` (e.g. `auth/`, `contact/`, `profile/`); `Banner.tsx` and `Footer.tsx` sit at the `src/components/` top level.
-- Only these routes exist: `/`, `/about-us`, `/contact`, `/profile`, `/sign-in`, `/sign-up`, plus `/api/auth/[...all]`. Navbar/footer already link to `/events`, `/events/create`, `/join`, `/terms`, and `/privacy`, which are not implemented.
+- Feature components live under `src/components/<feature>/` (`auth/`, `contact/`, `events/`, `home/`, `profile/`); `Banner.tsx` and `Footer.tsx` sit at the `src/components/` top level. `src/components/profile/user.tsx` is the navbar account dropdown, not the profile page; profile editing lives in `ProfileForm.tsx`.
+- Homepage sections are composed in `src/app/page.tsx` from `src/components/home/`. All homepage events, categories, stats, stories, partners, and FAQs are static demo data in `src/components/home/data.ts`; the homepage does not read MongoDB. `HomeSearchProvider` (`HomeSearch.tsx`) shares filter state; `EventSearch`, `CategoryGrid`, and `UpcomingEvents` must stay inside it.
+- `/events/create` is auth-protected and posts to `POST /api/events`, which inserts into the `events` collection through the `db` export in `src/app/lib/auth.ts`. Shared client/server validation, category options, and city options live in `src/app/lib/event-form.ts`; there is still no public `/events` listing page.
+- Toasts use react-toastify; `ToastContainer` is already mounted in `layout.tsx` (unstyled build plus its CSS import), so call `toast.*` from client components instead of adding another container.
+- Only these routes exist: `/`, `/about-us`, `/contact`, `/events/create`, `/profile`, `/sign-in`, `/sign-up`, plus `/api/auth/[...all]` and `/api/events`. Navbar/footer/CTA links also point to unbuilt routes (`/events`, `/join`, `/stories`, `/terms`, `/privacy`); don't assume those pages exist.
 - `ContactForm` is client-side only: it builds a `mailto:` link, with no API route or email service behind it.
 - `@/*` maps to `src/*`; local images live in `src/app/assets/` (`.jpg`) and are imported statically.
 - Next 16 generates route prop types (`LayoutProps<"/">`, etc.) into `.next`; use those instead of hand-writing route props.

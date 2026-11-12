@@ -58,13 +58,13 @@ const AboutUsPage = () => {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 85% 15%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 5% 90%, rgba(15, 23, 42, 0.08), transparent 36%)",
+              "radial-gradient(circle at 85% 15%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 5% 90%, color-mix(in srgb, var(--color-ink) 8%, transparent), transparent 36%)",
           }}
         />
 
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-24">
           <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-white/80 px-4 py-2 text-sm font-semibold text-ink shadow-sm shadow-ink/5 backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-surface/80 px-4 py-2 text-sm font-semibold text-ink shadow-sm shadow-navy/5 backdrop-blur">
               <span
                 className="h-2 w-2 rounded-full bg-brand"
                 aria-hidden="true"
@@ -87,7 +87,7 @@ const AboutUsPage = () => {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/events"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-ink hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-navy shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 hover:bg-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 Explore Events
                 <FiArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -95,7 +95,7 @@ const AboutUsPage = () => {
 
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:border-ink/30 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
+                className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-surface px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:border-ink/30 hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 Join Us
               </Link>
@@ -104,7 +104,7 @@ const AboutUsPage = () => {
 
           {/* Branded community card. Ekhane kono photo use kora hoy nai. */}
           <div className="relative mx-auto w-full max-w-lg">
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink p-6 shadow-2xl shadow-ink/25 sm:p-8">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-navy p-6 shadow-2xl shadow-navy/25 sm:p-8">
               <div
                 aria-hidden="true"
                 className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand/25 blur-3xl"
@@ -169,7 +169,7 @@ const AboutUsPage = () => {
         </h2>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <article className="rounded-[2rem] border border-ink/10 bg-white p-6 shadow-sm shadow-ink/5 sm:p-8">
+          <article className="rounded-[2rem] border border-ink/10 bg-surface p-6 shadow-sm shadow-navy/5 sm:p-8">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <FiTarget aria-hidden="true" className="h-6 w-6" />
             </div>
@@ -180,7 +180,7 @@ const AboutUsPage = () => {
             </p>
           </article>
 
-          <article className="rounded-[2rem] bg-ink p-6 text-white shadow-sm shadow-ink/10 sm:p-8">
+          <article className="rounded-[2rem] bg-navy p-6 text-white shadow-sm shadow-navy/10 sm:p-8">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/15 text-brand">
               <FiEye aria-hidden="true" className="h-6 w-6" />
             </div>
@@ -220,7 +220,7 @@ const AboutUsPage = () => {
           {actions.map(({ title, description, icon: Icon }) => (
             <article
               key={title}
-              className="rounded-3xl border border-ink/10 bg-white p-6 shadow-sm shadow-ink/5 transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg hover:shadow-ink/10 motion-reduce:transform-none"
+              className="rounded-3xl border border-ink/10 bg-surface p-6 shadow-sm shadow-navy/5 transition hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg hover:shadow-navy/10 motion-reduce:transform-none"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand">
                 <Icon aria-hidden="true" className="h-5 w-5" />
@@ -248,13 +248,13 @@ const AboutUsPage = () => {
 
           <div className="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-ink/60">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-navy/60">
                 Be part of something meaningful
               </p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-navy sm:text-4xl">
                 Ready to create change with us?
               </h2>
-              <p className="mt-3 leading-7 text-ink/75">
+              <p className="mt-3 leading-7 text-navy/75">
                 Discover local events, meet new people, and turn small actions
                 into real impact.
               </p>
@@ -263,7 +263,7 @@ const AboutUsPage = () => {
             <div className="flex flex-col gap-3 sm:flex-row lg:shrink-0">
               <Link
                 href="/events"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-navy/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
               >
                 Explore Events
                 <FiArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -271,7 +271,7 @@ const AboutUsPage = () => {
 
               <Link
                 href="/join"
-                className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-white/85 px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
+                className="inline-flex items-center justify-center rounded-full border border-navy/20 bg-white/85 px-6 py-3.5 text-sm font-semibold text-navy transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
               >
                 Join Us
               </Link>

@@ -40,7 +40,7 @@ const SignUpPage = () => {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 82% 8%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 8% 92%, rgba(15, 23, 42, 0.07), transparent 34%)",
+            "radial-gradient(circle at 82% 8%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--color-ink) 7%, transparent), transparent 34%)",
         }}
       />
 
@@ -50,7 +50,7 @@ const SignUpPage = () => {
         className="pointer-events-none absolute inset-0 -z-10 opacity-50"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px)",
+            "linear-gradient(to right, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
             "radial-gradient(ellipse at center, black, transparent 72%)",
@@ -59,10 +59,10 @@ const SignUpPage = () => {
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         {/* Main card: left e brand panel, right e form. */}
-        <div className="rise-in overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)] sm:rounded-[2.5rem]">
+        <div className="rise-in overflow-hidden rounded-[2rem] border border-ink/10 bg-surface shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)] sm:rounded-[2.5rem]">
           <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
             {/* Left brand panel. Mobile e hidden thake. */}
-            <aside className="relative hidden overflow-hidden bg-ink p-10 text-white lg:flex lg:flex-col xl:p-12">
+            <aside className="relative hidden overflow-hidden bg-navy p-10 text-white lg:flex lg:flex-col xl:p-12">
               {/* Panel er vitore emerald glow. */}
               <div
                 aria-hidden="true"
@@ -95,7 +95,7 @@ const SignUpPage = () => {
                 <Link
                   href="/"
                   aria-label="Change Nest home"
-                  className="inline-flex items-center gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                  className="inline-flex items-center gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                 >
                   <Image
                     src={logo}

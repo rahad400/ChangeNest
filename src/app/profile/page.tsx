@@ -31,7 +31,7 @@ const ProfilePage = async () => {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 82% 8%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 8% 92%, rgba(15, 23, 42, 0.07), transparent 34%)",
+            "radial-gradient(circle at 82% 8%, rgba(22, 163, 74, 0.14), transparent 30%), radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--color-ink) 7%, transparent), transparent 34%)",
         }}
       />
 
@@ -50,12 +50,12 @@ const ProfilePage = async () => {
           </h1>
 
           <p className="mt-3 max-w-2xl text-sm leading-7 text-ink/60 sm:text-base">
-            Update how you appear across ChangeNest. Your name and avatar are
+            Update how you appear across ChangeNest. Your name and Profile Image are
             used throughout the site.
           </p>
         </div>
 
-        <div className="rise-in mt-8 rounded-[2rem] border border-ink/10 bg-white p-6 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)] sm:rounded-[2.5rem] sm:p-10">
+        <div className="rise-in mt-8 rounded-[2rem] border border-ink/10 bg-surface p-6 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.5)] sm:rounded-[2.5rem] sm:p-10">
           <ProfileForm
             user={{
               name: session.user.name,

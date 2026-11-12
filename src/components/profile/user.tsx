@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { signOut, useSession } from "@/app/lib/auth-client";
 import UserAvatar from "./UserAvatar";
+import Link from "next/link";
 
 const User = () => {
   const { data: session, isPending } = useSession();
@@ -52,7 +53,7 @@ const User = () => {
         router.push("/profile");
         break;
       case "create-event":
-        router.push("/events/create");
+        router.push("/create-event");
         break;
       case "my-events":
         router.push("/events");
@@ -71,17 +72,17 @@ const User = () => {
 
   return (
     <Dropdown>
-      <Dropdown.Trigger className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-3 text-sm font-semibold text-ink transition-colors hover:border-ink/20 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2">
+      <Dropdown.Trigger
+        aria-label="Open user menu"
+        className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface py-1 pl-1 pr-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/20 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 sm:pr-3"
+      >
         <UserAvatar
           name={user.name}
           image={user.image}
           className="h-8 w-8 text-[11px]"
         />
-        <span className="max-w-24 truncate">{firstName}</span>
-        <FiChevronDown
-          aria-hidden="true"
-          className="h-3.5 w-3.5 text-ink/45"
-        />
+        <span className="hidden max-w-24 truncate sm:inline">{firstName}</span>
+        <FiChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-ink/45" />
       </Dropdown.Trigger>
 
       <Dropdown.Popover placement="bottom end">
