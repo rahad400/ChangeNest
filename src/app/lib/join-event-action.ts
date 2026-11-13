@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 
 export type JoinEventResult =
   | { status: "joined"; count: number }
@@ -14,37 +15,37 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const eventIdPattern = /^[a-f0-9]{24}$/i;
 
-// Join request server theke pathai, tai userId browser theke spoof kora jabe na.
 export async function joinEvent(eventId: string): Promise<JoinEventResult> {
   if (!eventIdPattern.test(eventId)) {
     return { status: "error", message: "This event link looks invalid." };
   }
 
-  const session = await auth.api.getSession({ headers: await headers() });
+  const reqHearder = await headers();
+
+  const session = await auth.api.getSession({ headers: reqHearder });
 
   if (!session) {
     return { status: "unauthenticated" };
   }
 
-  const secret = process.env.INTERNAL_API_SECRET;
-
-  if (!secret) {
-    return {
-      status: "error",
-      message: "Joining is not configured right now. Please try again later.",
-    };
-  }
-
   try {
+    const jwtToken = await auth.api.getToken({
+      headers: reqHearder,
+    });
+    const token = jwtToken?.token;
+    if (!token) {
+      return {
+        status: "error",
+        message: "Joining is not configured right now. Please try again later.",
+      };
+    }
     const response = await fetch(
-      `http://localhost:8000/join-event/${encodeURIComponent(eventId)}`,
+      eventApiUrl(`join-event/${encodeURIComponent(eventId)}`),
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "x-internal-api-secret": secret,
+          authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userId: session.user.id }),
         cache: "no-store",
       },
     );
@@ -66,7 +67,8 @@ export async function joinEvent(eventId: string): Promise<JoinEventResult> {
   } catch {
     return {
       status: "error",
-      message: "We couldn't join this event. Check your connection and try again.",
+      message:
+        "We couldn't join this event. Check your connection and try again.",
     };
   }
 }

@@ -1,14 +1,14 @@
 import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const requestHeaders = await headers();
+  const session = await auth.api.getSession({ headers: requestHeaders });
 
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -16,15 +16,22 @@ export async function DELETE(
 
   try {
     const { id } = await params;
+    const jwtToken = await auth.api.getToken({ headers: requestHeaders });
+    const token = jwtToken?.token;
+
+    if (!token) {
+      return NextResponse.json(
+        { message: "Event deletion is not configured" },
+        { status: 500 },
+      );
+    }
 
     const response = await fetch(
-      `http://localhost:8000/delete-event/${encodeURIComponent(id)}?createdBy=${encodeURIComponent(
-        session.user.id,
-      )}`,
+      eventApiUrl(`delete-event/${encodeURIComponent(id)}`),
       {
         method: "DELETE",
         headers: {
-          "x-internal-api-secret": process.env.INTERNAL_API_SECRET!,
+          authorization: `Bearer ${token}`,
         },
         cache: "no-store",
       },

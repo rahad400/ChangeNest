@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { auth } from "@/app/lib/auth";
 import { eventCategories, formatEventTime } from "@/app/lib/event-form";
+import { eventApiUrl } from "@/app/lib/event-api";
 import JoinEventButton from "@/components/events/JoinEventButton";
 import type { IEvent } from "@/types/events";
 
@@ -93,21 +94,20 @@ type JoinSummary = {
 
 const getJoinSummary = async (eventId: string): Promise<JoinSummary> => {
   try {
-    const jwtToken = await auth.api.getToken({
-      headers: await headers(),
-    });
+    const requestHeaders = await headers();
+    const session = await auth.api.getSession({ headers: requestHeaders });
+    const jwtToken = session
+      ? await auth.api.getToken({ headers: requestHeaders })
+      : null;
     const token = jwtToken?.token;
 
-    const url = new URL(
-      `http://localhost:8000/join-event/${encodeURIComponent(eventId)}`,
+    const response = await fetch(
+      eventApiUrl(`join-event/${encodeURIComponent(eventId)}`),
+      {
+        headers: token ? { authorization: `Bearer ${token}` } : {},
+        cache: "no-store",
+      },
     );
-
-    const response = await fetch(url, {
-      headers: token ? { authorization: `Bearer ${token}` } : {},
-      cache: "no-store",
-    });
-
-
 
     if (!response.ok) {
       return { joined: false, count: 0 };
@@ -158,7 +158,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
 
   try {
     response = await fetch(
-      `http://localhost:8000/details-event/${encodeURIComponent(id)}`,
+      eventApiUrl(`details-event/${encodeURIComponent(id)}`),
       { cache: "no-store" },
     );
   } catch {

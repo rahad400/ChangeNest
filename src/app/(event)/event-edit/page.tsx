@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FiAlertCircle, FiArrowLeft } from "react-icons/fi";
 import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 import EditEventForm from "@/components/events/my-events-details/EditEventForm";
 import type { IEvent } from "@/types";
 
@@ -63,7 +64,8 @@ const EventEditPage = async ({ searchParams }: EventEditPageProps) => {
   const params = await searchParams;
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const session = await auth.api.getSession({ headers: await headers() });
+  const authHeaders = await headers();
+  const session = await auth.api.getSession({ headers: authHeaders });
 
   if (!session) {
     const nextPath = id
@@ -85,28 +87,28 @@ const EventEditPage = async ({ searchParams }: EventEditPageProps) => {
   let loadFailed = false;
 
   try {
-    const response = await fetch(
-      `http://localhost:8000/my-events?createdBy=${encodeURIComponent(
-        session.user.id,
-      )}`,
-      {
-        headers: {
-          "x-internal-api-secret": process.env.INTERNAL_API_SECRET ?? "",
-        },
-        cache: "no-store",
-      },
-    );
+    const jwtToken = await auth.api.getToken({ headers: authHeaders });
+    const token = jwtToken?.token;
 
-    if (!response.ok) {
+    if (!token) {
       loadFailed = true;
     } else {
-      const data: unknown = await response.json();
+      const response = await fetch(eventApiUrl("my-events"), {
+        headers: { authorization: `Bearer ${token}` },
+        cache: "no-store",
+      });
 
-      if (Array.isArray(data)) {
-        event =
-          data.find(
-            (item): item is IEvent => isIEvent(item) && item._id === id,
-          ) ?? null;
+      if (!response.ok) {
+        loadFailed = true;
+      } else {
+        const data: unknown = await response.json();
+
+        if (Array.isArray(data)) {
+          event =
+            data.find(
+              (item): item is IEvent => isIEvent(item) && item._id === id,
+            ) ?? null;
+        }
       }
     }
   } catch {

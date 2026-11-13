@@ -23,7 +23,7 @@ export default async function MyJoinedEventsPage() {
     redirect(`/sign-in?next=${encodeURIComponent("/my-joined-events")}`);
   }
 
-  const { events, failed } = await fetchJoinedEvents(session.user.id);
+  const { events, failed } = await fetchJoinedEvents();
 
   return (
     <div className="space-y-6">

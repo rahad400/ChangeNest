@@ -1,10 +1,12 @@
 import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
+  const authHeaders = await headers();
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: authHeaders,
   });
 
   if (!session) {
@@ -12,16 +14,20 @@ export const GET = async () => {
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:8000/my-events?createdBy=${session.user.id}`,
-      {
-        method: "GET",
-        headers: {
-          "x-internal-api-secret": process.env.INTERNAL_API_SECRET!,
-        },
-        cache: "no-store",
+    const jwtToken = await auth.api.getToken({
+      headers: authHeaders,
+    });
+    const token = jwtToken?.token;
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    const response = await fetch(eventApiUrl("my-events"), {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
       },
-    );
+      cache: "no-store",
+    });
 
     const result = await response.json();
 
@@ -39,8 +45,9 @@ export const GET = async () => {
 };
 
 export const POST = async (request: Request) => {
+  const reqHeaders = await headers();
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: reqHeaders,
   });
 
   if (!session) {
@@ -48,18 +55,33 @@ export const POST = async (request: Request) => {
   }
 
   try {
-    const eventData = await request.json();
+    const jwtToken = await auth.api.getToken({
+      headers: reqHeaders,
+    });
 
-    const response = await fetch("http://localhost:8000/my-events", {
+    const token = jwtToken?.token;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    let eventData: unknown;
+
+    try {
+      eventData = await request.json();
+    } catch {
+      return NextResponse.json(
+        { message: "Invalid event data" },
+        { status: 400 },
+      );
+    }
+
+    const response = await fetch(eventApiUrl("my-events"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-internal-api-secret": process.env.INTERNAL_API_SECRET!,
+        authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        ...eventData,
-        createdBy: session.user.id,
-      }),
+      body: JSON.stringify(eventData),
     });
 
     const result = await response.json();
@@ -67,7 +89,9 @@ export const POST = async (request: Request) => {
     return NextResponse.json(result, {
       status: response.status,
     });
-  } catch {
+  } catch (error) {
+    console.error("My Events POST Error:", error);
+
     return NextResponse.json(
       { message: "Failed to create event" },
       { status: 500 },
@@ -76,16 +100,24 @@ export const POST = async (request: Request) => {
 };
 
 export const PUT = async (request: Request) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const authHeaders = await headers();
+  const session = await auth.api.getSession({ headers: authHeaders });
 
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const body: unknown = await request.json();
+    let body: unknown;
+
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { message: "Invalid event data" },
+        { status: 400 },
+      );
+    }
 
     if (typeof body !== "object" || body === null || Array.isArray(body)) {
       return NextResponse.json(
@@ -103,18 +135,22 @@ export const PUT = async (request: Request) => {
       );
     }
 
+    const jwtToken = await auth.api.getToken({ headers: authHeaders });
+    const token = jwtToken?.token;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const response = await fetch(
-      `http://localhost:8000/my-events/${encodeURIComponent(id)}`,
+      eventApiUrl(`my-events/${encodeURIComponent(id)}`),
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-internal-api-secret": process.env.INTERNAL_API_SECRET!,
+          authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...eventData,
-          createdBy: session.user.id,
-        }),
+        body: JSON.stringify(eventData),
       },
     );
 

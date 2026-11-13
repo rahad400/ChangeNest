@@ -7,7 +7,6 @@ import {
   RefreshCw,
   RotateCcw,
   SearchX,
-  Slice,
   TriangleAlert,
 } from "lucide-react";
 import { getEventCategoryLabel } from "@/app/lib/event-display";

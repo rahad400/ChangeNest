@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 
 export type LeaveEventResult =
   | { status: "left" }
@@ -11,7 +12,6 @@ export type LeaveEventResult =
 
 const eventIdPattern = /^[a-f0-9]{24}$/i;
 
-// Leave request server theke pathai, tai userId browser theke spoof kora jabe na.
 export async function leaveJoinedEvent(
   eventId: string,
 ): Promise<LeaveEventResult> {
@@ -19,27 +19,28 @@ export async function leaveJoinedEvent(
     return { status: "error", message: "This event link looks invalid." };
   }
 
-  const session = await auth.api.getSession({ headers: await headers() });
+  const authHeaders = await headers();
+  const session = await auth.api.getSession({ headers: authHeaders });
 
   if (!session) {
     return { status: "unauthenticated" };
   }
 
-  const secret = process.env.INTERNAL_API_SECRET;
-
-  if (!secret) {
-    return {
-      status: "error",
-      message: "Leaving events is not configured right now. Please try again later.",
-    };
-  }
-
   try {
+    const jwtToken = await auth.api.getToken({ headers: authHeaders });
+    const token = jwtToken?.token;
+    if (!token) {
+      return {
+        status: "error",
+        message:
+          "Leaving events is not configured right now. Please try again later.",
+      };
+    }
     const response = await fetch(
-      `http://localhost:8000/leave-event/${encodeURIComponent(eventId)}?userId=${encodeURIComponent(session.user.id)}`,
+      eventApiUrl(`leave-event/${encodeURIComponent(eventId)}`),
       {
         method: "DELETE",
-        headers: { "x-internal-api-secret": secret },
+        headers: { authorization: `Bearer ${token}` },
         cache: "no-store",
       },
     );

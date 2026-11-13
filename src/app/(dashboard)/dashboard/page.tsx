@@ -40,8 +40,8 @@ export default async function DashboardPage() {
   }
 
   const [joinedResult, createdResult, upcomingResult] = await Promise.all([
-    fetchJoinedEvents(session.user.id),
-    fetchCreatedEvents(session.user.id),
+    fetchJoinedEvents(),
+    fetchCreatedEvents(),
     fetchUpcomingEvents(),
   ]);
 

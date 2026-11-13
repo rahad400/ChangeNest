@@ -23,7 +23,7 @@ export default async function MyEventsPage() {
     redirect("/sign-in");
   }
 
-  const { events } = await fetchCreatedEvents(session.user.id);
+  const { events } = await fetchCreatedEvents();
 
   return (
     <div className="space-y-6">

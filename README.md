@@ -19,6 +19,17 @@ npm run build
 npm run start
 ```
 
+## Event backend configuration
+
+The Express event API lives in the sibling `changenestsever` project and can be
+started with `node index.js`. The Next.js app uses `EVENT_API_URL` as the
+backend origin. It defaults to `http://localhost:8000` in development and must
+be set when deploying.
+
+The backend uses `JWKS_URL` as the origin of the Next.js app's Better Auth
+JWKS endpoint. It defaults to `http://localhost:3000` in development and must
+be set to an origin reachable by the backend when deploying.
+
 ## Project structure
 
 ```text

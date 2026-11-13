@@ -1,5 +1,8 @@
+import { auth } from "@/app/lib/auth";
+import { eventApiUrl } from "@/app/lib/event-api";
 import { isIEvent, isUpcomingEvent } from "@/app/lib/event-display";
 import type { IEvent } from "@/types";
+import { headers } from "next/headers";
 
 // Standard result for list-based event queries
 export type EventsResult = {
@@ -21,7 +24,7 @@ const parseEvents = (data: unknown): IEvent[] =>
 // Fetch all upcoming events (filters out events whose dates are in the past)
 export const fetchUpcomingEvents = async (): Promise<EventsResult> => {
   try {
-    const response = await fetch("http://localhost:8000/upcoming-events", {
+    const response = await fetch(eventApiUrl("upcoming-events"), {
       cache: "no-store",
     });
 
@@ -51,7 +54,7 @@ export const fetchEventById = async (
 
   try {
     const response = await fetch(
-      `http://localhost:8000/details-event/${encodeURIComponent(id)}`,
+      eventApiUrl(`details-event/${encodeURIComponent(id)}`),
       { cache: "no-store" },
     );
 
@@ -78,23 +81,19 @@ export const fetchEventById = async (
 // Generic helper to fetch events for a specific user (joined or created)
 const fetchUserEvents = async (
   path: "my-events" | "my-joined-events",
-  userId: string,
-  queryKey: "createdBy" | "userId",
 ): Promise<EventsResult> => {
-  const secret = process.env.INTERNAL_API_SECRET;
-
-  if (!secret) {
-    return { events: [], failed: true };
-  }
-
   try {
-    const response = await fetch(
-      `http://localhost:8000/${path}?${queryKey}=${encodeURIComponent(userId)}`,
-      {
-        headers: { "x-internal-api-secret": secret },
-        cache: "no-store",
-      },
-    );
+    const jwtToken = await auth.api.getToken({ headers: await headers() });
+    const token = jwtToken?.token;
+
+    if (!token) {
+      return { events: [], failed: true };
+    }
+
+    const response = await fetch(eventApiUrl(path), {
+      headers: { authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       return { events: [], failed: true };
@@ -109,9 +108,9 @@ const fetchUserEvents = async (
 };
 
 // Fetch events the user has joined
-export const fetchJoinedEvents = (userId: string): Promise<EventsResult> =>
-  fetchUserEvents("my-joined-events", userId, "userId");
+export const fetchJoinedEvents = (): Promise<EventsResult> =>
+  fetchUserEvents("my-joined-events");
 
 // Fetch events created by the user
-export const fetchCreatedEvents = (userId: string): Promise<EventsResult> =>
-  fetchUserEvents("my-events", userId, "createdBy");
+export const fetchCreatedEvents = (): Promise<EventsResult> =>
+  fetchUserEvents("my-events");
