@@ -185,7 +185,7 @@ export default function DashboardSidebar({
         </Link>
 
         {/* User Profile Card */}
-        <div className="flex items-center justify-between rounded-2xl border border-ink/10 bg-canvas p-3">
+        <div className="flex items-center rounded-2xl border border-ink/10 bg-canvas p-3">
           <div className="flex min-w-0 items-center gap-2.5">
             <UserAvatar
               name={user.name}
@@ -201,17 +201,17 @@ export default function DashboardSidebar({
               </p>
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={handleSignOut}
-            title="Sign out"
-            aria-label="Sign out"
-            className="rounded-xl p-2 text-ink/40 transition hover:bg-surface hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-          >
-            <LogOut aria-hidden="true" className="h-4 w-4" />
-          </button>
         </div>
+
+        {/* Log out: red border ar red text, jate danger action clear hoy. */}
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-400 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:border-red-500 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:border-red-500/50 dark:text-red-400 dark:hover:border-red-400 dark:hover:bg-red-500/10"
+        >
+          <LogOut aria-hidden="true" className="h-4 w-4" />
+          Log out
+        </button>
       </div>
     </div>
   );

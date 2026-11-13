@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import ContactForm from "@/components/contact/ContactForm";
+import JoinUsBnt from "@/components/events/JoinUsBnt";
 
 export const metadata: Metadata = {
   title: "Contact Us | ChangeNest",
@@ -284,12 +285,7 @@ const ContactPage = () => {
                 <FiArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
 
-              <Link
-                href="/sign-up"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-navy motion-reduce:transform-none"
-              >
-                Join Us
-              </Link>
+              <JoinUsBnt />
             </div>
           </div>
         </div>

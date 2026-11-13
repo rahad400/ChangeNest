@@ -146,7 +146,7 @@ const VolunteerOfMonth = () => {
               </ul>
 
               <Link
-                href="/sign-up"
+                href="/create-event"
                 className="group mt-8 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 dark:text-navy dark:hover:bg-emerald-300"
               >
                 <Sparkles aria-hidden="true" className="h-4 w-4" />

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiLogIn, FiMenu, FiX } from "react-icons/fi";
 import logo from "@/app/assets/logo.jpg";
 import { useSession } from "@/app/lib/auth-client";
 
@@ -178,9 +178,15 @@ const Navebar = () => {
             <>
               <Link
                 href="/sign-in"
-                className="hidden rounded-full px-3 py-2.5 text-sm font-semibold text-ink/65 transition-colors hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 md:inline-flex"
+                className="group relative hidden items-center gap-2 overflow-hidden rounded-full border border-ink/15 bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-sm shadow-navy/5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand/40 hover:bg-brand/5 hover:text-brand hover:shadow-md hover:shadow-brand/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 md:inline-flex motion-reduce:transform-none"
               >
-                Log in
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/10 text-brand transition-all duration-200 group-hover:bg-brand group-hover:text-white">
+                  <FiLogIn
+                    aria-hidden="true"
+                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                  />
+                </span>
+                Sign In
               </Link>
               <Link
                 href="/sign-up"
@@ -236,8 +242,12 @@ const Navebar = () => {
               <Link
                 href="/sign-in"
                 onClick={closeMenu}
-                className="flex w-full items-center justify-center rounded-xl border border-ink/15 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-brand/40 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-ink/15 bg-canvas/60 px-5 py-3 text-sm font-semibold text-ink transition-all duration-200 hover:border-brand/40 hover:bg-brand/5 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               >
+                <FiLogIn
+                  aria-hidden="true"
+                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                />
                 Log in
               </Link>
               <Link

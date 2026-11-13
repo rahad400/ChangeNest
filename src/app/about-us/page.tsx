@@ -11,6 +11,7 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import logo from "@/app/assets/logo.jpg";
+import JoinUsBnt from "@/components/events/JoinUsBnt";
 
 export const metadata: Metadata = {
   title: "About Us | ChangeNest",
@@ -80,7 +81,7 @@ const AboutUsPage = () => {
             <p className="mt-6 max-w-xl text-base leading-7 text-ink/70 sm:text-lg">
               ChangeNest is a social development and community events platform
               that brings people together to create positive change. We connect
-             volunteers, event organizers, and communities to discover
+              volunteers, event organizers, and communities to discover
               meaningful activities and make a real difference in society.
             </p>
 
@@ -92,13 +93,7 @@ const AboutUsPage = () => {
                 Explore Events
                 <FiArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
-
-              <Link
-                href="/sign-up"
-                className="inline-flex items-center justify-center rounded-full border border-ink/15 bg-surface px-6 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:border-ink/30 hover:bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
-              >
-                Join Us
-              </Link>
+              <JoinUsBnt />
             </div>
           </div>
 
@@ -269,12 +264,7 @@ const AboutUsPage = () => {
                 <FiArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
 
-              <Link
-                href="/sign-up"
-                className="inline-flex items-center justify-center rounded-full border border-navy/20 bg-white/85 px-6 py-3.5 text-sm font-semibold text-navy transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transform-none"
-              >
-                Join Us
-              </Link>
+              <JoinUsBnt />
             </div>
           </div>
         </div>

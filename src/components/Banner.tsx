@@ -38,7 +38,8 @@ const Banner = () => {
           backgroundImage:
             "linear-gradient(to right, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
-          maskImage: "radial-gradient(ellipse at center, black, transparent 76%)",
+          maskImage:
+            "radial-gradient(ellipse at center, black, transparent 76%)",
         }}
       />
 
@@ -92,8 +93,8 @@ const Banner = () => {
 
           <p className="rise-in mt-6 max-w-xl text-base leading-7 text-ink/70 [animation-delay:160ms] sm:text-lg sm:leading-8">
             ChangeNest brings caring people and local causes together. Find a
-            cleanup, a health camp, a reading circle — or create something only your
-            neighbourhood could dream up.
+            cleanup, a health camp, a reading circle — or create something only
+            your neighbourhood could dream up.
           </p>
 
           <div className="rise-in mt-8 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row">
@@ -101,7 +102,7 @@ const Banner = () => {
               Explore events
               <ArrowRight aria-hidden="true" className={arrowStyles} />
             </Link>
-            <Link href="/sign-up" className={secondaryButtonStyles}>
+            <Link href="/upcoming-event" className={secondaryButtonStyles}>
               Become a volunteer
               <UsersRound aria-hidden="true" className="h-4 w-4" />
             </Link>
