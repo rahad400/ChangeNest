@@ -31,10 +31,7 @@ export default function DashboardLayoutClient({
       {/* Main Content Area */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile Header */}
-        <DashboardHeader
-          user={user}
-          onOpenMobile={() => setMobileOpen(true)}
-        />
+        <DashboardHeader onOpenMobile={() => setMobileOpen(true)} />
 
         {/* Page Content */}
         <main className="min-w-0 flex-1 overflow-x-hidden p-4 sm:p-6 lg:p-10">

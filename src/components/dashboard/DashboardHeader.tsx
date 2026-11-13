@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import { Menu, Plus } from "lucide-react";
-import UserAvatar from "@/components/auth/profile/UserAvatar";
+import ThemeToggle from "@/components/nave/ThemeToggle";
 
 type DashboardHeaderProps = {
-  user: {
-    name: string;
-    image?: string | null;
-  };
   onOpenMobile: () => void;
 };
 
 export default function DashboardHeader({
-  user,
   onOpenMobile,
 }: DashboardHeaderProps) {
   return (
@@ -32,20 +27,15 @@ export default function DashboardHeader({
         </span>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
         <Link
           href="/create-event"
+          aria-label="Create event"
           className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-brand/90"
         >
           <Plus aria-hidden="true" className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">New Event</span>
-        </Link>
-        <Link href="/profile" aria-label="Go to profile">
-          <UserAvatar
-            name={user.name}
-            image={user.image}
-            className="h-8 w-8 text-[11px]"
-          />
         </Link>
       </div>
     </header>

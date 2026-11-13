@@ -11,6 +11,19 @@ import { useSession } from "@/app/lib/auth-client";
 import ThemeToggle from "@/components/nave/ThemeToggle";
 import User from "../auth/profile/user";
 
+// Dashboard shell er mobile e nijer header ache, tai global navbar hide thakbe.
+const dashboardShellRoutes = [
+  "/dashboard",
+  "/profile",
+  "/my-events",
+  "/my-joined-events",
+] as const;
+
+const isDashboardShellRoute = (pathname: string) =>
+  dashboardShellRoutes.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
+
 // Ei link ta current page er link kina check kore.
 const isActiveLink = (pathname: string, href: string) => {
   if (href === "/") {
@@ -32,6 +45,7 @@ const isActiveLink = (pathname: string, href: string) => {
 
 const Navebar = () => {
   const pathname = usePathname();
+  const isDashboardShell = isDashboardShellRoute(pathname);
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, isPending } = useSession();
 
@@ -77,7 +91,11 @@ const Navebar = () => {
 
   return (
     // Sticky header: page scroll korleo navbar upore fixed thake.
-    <header className="sticky top-0 z-50 border-b border-ink/10 bg-surface/90 backdrop-blur-xl supports-[backdrop-filter]:bg-surface/80">
+    <header
+      className={`sticky top-0 z-50 border-b border-ink/10 bg-surface/90 backdrop-blur-xl supports-[backdrop-filter]:bg-surface/80 ${
+        isDashboardShell ? "hidden lg:block" : ""
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
         {/* Mobile menu open/close button. */}
         <button

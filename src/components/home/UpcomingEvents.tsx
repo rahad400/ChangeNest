@@ -7,6 +7,7 @@ import {
   RefreshCw,
   RotateCcw,
   SearchX,
+  Slice,
   TriangleAlert,
 } from "lucide-react";
 import { getEventCategoryLabel } from "@/app/lib/event-display";
@@ -32,7 +33,7 @@ const UpcomingEvents = ({ events, failed }: UpcomingEventsProps) => {
 
   const normalizedQuery = query.trim().toLowerCase();
 
-  const matchingEvents = events.filter((event) => {
+  const matchingEvents = events.slice(0, 3).filter((event) => {
     const searchableText = [
       event.values.title,
       event.values.description,
@@ -146,7 +147,7 @@ const UpcomingEvents = ({ events, failed }: UpcomingEventsProps) => {
             </div>
 
             {matchingEvents.length > 0 ? (
-              <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {matchingEvents.map((event) => (
                   <UpcomingEventsCard key={event._id} event={event} />
                 ))}

@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { categories, type CategoryId } from "./data";
-import { useHomeSearch } from "./HomeSearch";
 import { SectionHeading } from "./ui";
 import type { IEvent } from "@/types";
 
@@ -12,18 +9,9 @@ type CategoryGridProps = {
 };
 
 const CategoryGrid = ({ events }: CategoryGridProps) => {
-  const { category: activeCategory, setCategory, scrollToEvents } =
-    useHomeSearch();
-
   // Count backend er real event theke hiseb hoy, demo data theke na.
   const countByCategory = (categoryId: CategoryId) =>
     events.filter((event) => event.values.categoryId === categoryId).length;
-
-  // Category click korle filter set kore upcoming list e scroll koro.
-  const focusCategory = (categoryId: CategoryId) => {
-    setCategory(categoryId);
-    scrollToEvents();
-  };
 
   return (
     <section
@@ -43,7 +31,7 @@ const CategoryGrid = ({ events }: CategoryGridProps) => {
               </span>
             </>
           }
-          description="Pick a cause to jump straight to matching events. Browsing is always free, and you can change your mind as often as you like."
+          description="Pick a cause to see every event supporting it. Browsing is always free, and you can change your mind as often as you like."
           action={
             <Link
               href="/upcoming-event"
@@ -59,21 +47,12 @@ const CategoryGrid = ({ events }: CategoryGridProps) => {
         />
 
         <div className="mt-8 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              setCategory("all");
-              scrollToEvents();
-            }}
-            aria-pressed={activeCategory === "all"}
-            className={`inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
-              activeCategory === "all"
-                ? "border-brand/40 bg-brand/10 text-brand"
-                : "border-ink/10 bg-surface text-ink/55 hover:border-brand/30 hover:text-ink"
-            }`}
+          <Link
+            href="/upcoming-event"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-ink/10 bg-surface px-3.5 py-1.5 text-xs font-semibold text-ink/55 transition hover:border-brand/30 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
           >
             All categories
-          </button>
+          </Link>
           <p className="text-xs text-ink/45">
             {events.length} {events.length === 1 ? "event" : "events"} live
             right now
@@ -83,20 +62,13 @@ const CategoryGrid = ({ events }: CategoryGridProps) => {
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {categories.map(
             ({ id, label, description, icon: Icon, tone, dot }) => {
-              const active = activeCategory === id;
               const count = countByCategory(id);
 
               return (
-                <button
+                <Link
                   key={id}
-                  type="button"
-                  onClick={() => focusCategory(id)}
-                  aria-pressed={active}
-                  className={`group relative flex h-full min-w-0 flex-col items-start rounded-[1.5rem] border p-5 text-left transition duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none ${
-                    active
-                      ? "border-brand/40 bg-brand/5 shadow-lg shadow-brand/10"
-                      : "border-ink/10 bg-surface hover:border-brand/30 hover:shadow-lg hover:shadow-navy/5"
-                  }`}
+                  href={`/categories/${id}`}
+                  className="group relative flex h-full min-w-0 flex-col items-start rounded-[1.5rem] border border-ink/10 bg-surface p-5 text-left transition duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg hover:shadow-navy/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 motion-reduce:transform-none"
                 >
                   <span className="flex w-full items-start justify-between gap-2">
                     <span
@@ -121,13 +93,13 @@ const CategoryGrid = ({ events }: CategoryGridProps) => {
                   </span>
 
                   <span className="mt-auto flex w-full items-center justify-between pt-4 text-[11px] font-semibold text-brand">
-                    <span>{active ? "Filtering" : "Explore"}</span>
+                    <span>Explore</span>
                     <ArrowUpRight
                       aria-hidden="true"
                       className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
                     />
                   </span>
-                </button>
+                </Link>
               );
             },
           )}
