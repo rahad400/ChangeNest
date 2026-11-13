@@ -4,6 +4,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
+
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -90,29 +91,23 @@ type JoinSummary = {
   count: number;
 };
 
-const getJoinSummary = async (
-  eventId: string,
-  userId?: string,
-): Promise<JoinSummary> => {
-  const secret = process.env.INTERNAL_API_SECRET;
-
-  if (!secret) {
-    return { joined: false, count: 0 };
-  }
-
+const getJoinSummary = async (eventId: string): Promise<JoinSummary> => {
   try {
+    const jwtToken = await auth.api.getToken({
+      headers: await headers(),
+    });
+    const token = jwtToken?.token;
+
     const url = new URL(
       `http://localhost:8000/join-event/${encodeURIComponent(eventId)}`,
     );
 
-    if (userId) {
-      url.searchParams.set("userId", userId);
-    }
-
     const response = await fetch(url, {
-      headers: { "x-internal-api-secret": secret },
+      headers: token ? { authorization: `Bearer ${token}` } : {},
       cache: "no-store",
     });
+
+
 
     if (!response.ok) {
       return { joined: false, count: 0 };
@@ -148,9 +143,7 @@ const EventFact = ({ icon: Icon, label, value }: EventFactProps) => (
       <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/40">
         {label}
       </dt>
-      <dd className="mt-1 text-sm font-semibold leading-5 text-ink">
-        {value}
-      </dd>
+      <dd className="mt-1 text-sm font-semibold leading-5 text-ink">{value}</dd>
     </div>
   </div>
 );
@@ -195,7 +188,7 @@ const DetailsPage = async ({ params }: DetailsPageProps) => {
   const session = await auth.api
     .getSession({ headers: await headers() })
     .catch(() => null);
-  const joinSummary = await getJoinSummary(id, session?.user.id);
+  const joinSummary = await getJoinSummary(id);
   const categoryLabel =
     eventCategories.find((category) => category.id === values.categoryId)
       ?.label ?? values.categoryId.replaceAll("-", " ");
@@ -440,7 +433,8 @@ const EventLoadError = () => (
         Event details are unavailable
       </h1>
       <p className="mt-3 text-sm leading-6 text-ink/60">
-        We couldn&apos;t load this event right now. Please try again in a moment.
+        We couldn&apos;t load this event right now. Please try again in a
+        moment.
       </p>
       <Link
         href="/upcoming-event"
